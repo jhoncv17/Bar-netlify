@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Inventario - Beer Store System</title>
+    <link rel="stylesheet" href="../css/main.css">
+  
+  <script type="module" async src="https://static.rocket.new/rocket-web.js?_cfg=https%3A%2F%2Fbeerstore5332back.builtwithrocket.new&_be=https%3A%2F%2Fapplication.rocket.new&_v=0.1.10"></script>
+  <script type="module" defer src="https://static.rocket.new/rocket-shot.js?v=0.0.1"></script>
+  </head>
+<body class="bg-background min-h-screen">
+    <!-- Header Navigation -->
+    <header class="bg-surface shadow-soft sticky top-0 z-50">
+        <nav class="max-w-9xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo -->
+                <div class="flex items-center gap-3">
+                    <svg class="w-10 h-10" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="48" height="48" rx="8" fill="#1B5E20"/>
+                        <path d="M24 12C20 12 18 14 18 18V30C18 34 20 36 24 36C28 36 30 34 30 30V18C30 14 28 12 24 12Z" fill="#FFA000"/>
+                        <ellipse cx="24" cy="18" rx="6" ry="2" fill="#FFD54F"/>
+                        <path d="M18 22H30" stroke="#FFD54F" stroke-width="1.5" stroke-linecap="round"/>
+                        <path d="M18 26H30" stroke="#FFD54F" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                    <div>
+                        <h1 class="text-xl font-heading font-bold text-primary">Beer Store</h1>
+                        <p class="text-xs text-text-secondary">Sistema de Gestión</p>
+                    </div>
+                </div>
+
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex items-center gap-2">
+                    <a href="product_catalog.html" class="btn-ghost px-4 py-2 rounded-base text-sm">
+                        <svg class="w-5 h-5 inline-block mr-2" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
+                        </svg>
+                        Catálogo
+                    </a>
+                    <a href="sales_checkout.html" class="btn-ghost px-4 py-2 rounded-base text-sm">
+                        <svg class="w-5 h-5 inline-block mr-2" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"/>
+                        </svg>
+                        Caja
+                    </a>
+                    <a href="inventory_management.html" class="btn-primary px-4 py-2 rounded-base text-sm">
+                        <svg class="w-5 h-5 inline-block mr-2" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/>
+                        </svg>
+                        Inventario
+                    </a>
+                    <a href="transaction_history.html" class="btn-ghost px-4 py-2 rounded-base text-sm">
+                        <svg class="w-5 h-5 inline-block mr-2" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/>
+                        </svg>
+                        Historial
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobileMenuBtn" class="md:hidden btn-ghost p-2 rounded-base">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"/>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Mobile Navigation Menu -->
+            <div id="mobileMenu" class="hidden md:hidden pb-4 space-y-2">
+                <a href="product_catalog.html" class="block btn-ghost px-4 py-2 rounded-base text-sm">Catálogo de Productos</a>
+                <a href="sales_checkout.html" class="block btn-ghost px-4 py-2 rounded-base text-sm">Caja de Ventas</a>
+                <a href="inventory_management.html" class="block btn-primary px-4 py-2 rounded-base text-sm">Gestión de Inventario</a>
+                <a href="transaction_history.html" class="block btn-ghost px-4 py-2 rounded-base text-sm">Historial de Transacciones</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-9xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <!-- Page Header -->
+        <div class="mb-6">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                <div>
+                    <h2 class="text-3xl font-heading font-bold text-primary mb-2">Gestión de Inventario</h2>
+                    <p class="text-text-secondary">Control de stock y reabastecimiento de productos</p>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                    <button id="exportBtn" class="btn-outline px-4 py-2 text-sm">
+                        <svg class="w-5 h-5 inline-block mr-2" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                        </svg>
+                        Exportar CSV
+                    </button>
+                    <button id="importBtn" class="btn-secondary px-4 py-2 text-sm">
+                        <svg class="w-5 h-5 inline-block mr-2" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM6.293 6.707a1 1 0 010-1.414l3-3a1 1 0 011.414 0l3 3a1 1 0 01-1.414 1.414L11 5.414V13a1 1 0 11-2 0V5.414L7.707 6.707a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
+                        </svg>
+                        Importar CSV
+                    </button>
+                    <button id="addStockBtn" class="btn-primary px-4 py-2 text-sm">
+                        <svg class="w-5 h-5 inline-block mr-2" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"/>
+                        </svg>
+                        Añadir Stock
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Inventory Alerts Dashboard -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+            <!-- Total Products Card -->
+            <div class="card p-6 hover-lift">
+                <div class="flex items-center justify-between mb-2">
+                    <div class="w-12 h-12 rounded-base bg-primary-100 flex items-center justify-center">
+                        <svg class="w-6 h-6 text-primary" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
+                        </svg>
+                    </div>
+                    <span class="badge badge-info">Activo</span>
+                </div>
+                <h3 class="text-2xl font-heading font-bold text-primary mb-1" id="totalProducts">6</h3>
+                <p class="text-sm text-text-secondary">Total de Productos</p>
+            </div>
+
+            <!-- Low Stock Alert Card -->
+            <div class="card p-6 hover-lift border-l-4 border-warning">
+                <div class="flex items-center justify-between mb-2">
+                    <div class="w-12 h-12 rounded-base bg-warning-light flex items-center justify-center">
+                        <svg class="w-6 h-6 text-warning" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                    <span class="badge badge-warning">Alerta</span>
+                </div>
+                <h3 class="text-2xl font-heading font-bold text-warning mb-1" id="lowStockCount">1</h3>
+                <p class="text-sm text-text-secondary">Stock Bajo</p>
+            </div>
+
+            <!-- Out of Stock Card -->
+            <div class="card p-6 hover-lift border-l-4 border-error">
+                <div class="flex items-center justify-between mb-2">
+                    <div class="w-12 h-12 rounded-base bg-error-light flex items-center justify-center">
+                        <svg class="w-6 h-6 text-error" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                    <span class="badge badge-error">Crítico</span>
+                </div>
+                <h3 class="text-2xl font-heading font-bold text-error mb-1" id="outOfStockCount">1</h3>
+                <p class="text-sm text-text-secondary">Sin Stock</p>
+            </div>
+
+            <!-- Total Stock Value Card -->
+            <div class="card p-6 hover-lift border-l-4 border-success">
+                <div class="flex items-center justify-between mb-2">
+                    <div class="w-12 h-12 rounded-base bg-success-light flex items-center justify-center">
+                        <svg class="w-6 h-6 text-success" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z"/>
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.076-2.354-1.253V5z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                    <span class="badge badge-success">Valorado</span>
+                </div>
+                <h3 class="text-2xl font-heading font-bold text-success mb-1" id="totalValue">€1.234,50</h3>
+                <p class="text-sm text-text-secondary">Valor Total Stock</p>
+            </div>
+        </div>
+
+        <!-- Filters and Search -->
+        <div class="card p-4 mb-6">
+            <div class="flex flex-col lg:flex-row gap-4">
+                <!-- Search Bar -->
+                <div class="flex-1">
+                    <label class="block text-sm font-medium text-text-primary mb-2">Buscar Producto</label>
+                    <div class="relative">
+                        <input type="text" id="searchInput" placeholder="Buscar por nombre..." class="input pl-10">
+                        <svg class="w-5 h-5 text-text-secondary absolute left-3 top-1/2 transform -translate-y-1/2" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Brand Filter -->
+                <div class="w-full lg:w-48">
+                    <label class="block text-sm font-medium text-text-primary mb-2">Marca</label>
+                    <select id="brandFilter" class="input">
+                        <option value="all">Todas las Marcas</option>
+                        <option value="pilsen">Pilsen</option>
+                        <option value="heineken">Heineken</option>
+                    </select>
+                </div>
+
+                <!-- Stock Status Filter -->
+                <div class="w-full lg:w-48">
+                    <label class="block text-sm font-medium text-text-primary mb-2">Estado</label>
+                    <select id="statusFilter" class="input">
+                        <option value="all">Todos los Estados</option>
+                        <option value="in-stock">En Stock</option>
+                        <option value="low-stock">Stock Bajo</option>
+                        <option value="out-of-stock">Sin Stock</option>
+                    </select>
+                </div>
+
+                <!-- Reset Button -->
+                <div class="flex items-end">
+                    <button id="resetFilters" class="btn-outline px-4 py-2 whitespace-nowrap">
+                        <svg class="w-5 h-5 inline-block mr-2" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd"/>
+                        </svg>
+                        Restablecer
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Inventory Table (Desktop) -->
+        <div class="hidden lg:block card overflow-hidden mb-6">
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead class="bg-gray-50 border-b border-border">
+                        <tr>
+                            <th class="px-6 py-4 text-left text-xs font-heading font-semibold text-text-primary uppercase tracking-wider">Producto</th>
+                            <th class="px-6 py-4 text-left text-xs font-heading font-semibold text-text-primary uppercase tracking-wider">Marca</th>
+                            <th class="px-6 py-4 text-center text-xs font-heading font-semibold text-text-primary uppercase tracking-wider">Stock Actual</th>
+                            <th class="px-6 py-4 text-center text-xs font-heading font-semibold text-text-primary uppercase tracking-wider">Nivel Mínimo</th>
+                            <th class="px-6 py-4 text-center text-xs font-heading font-semibold text-text-primary uppercase tracking-wider">Estado</th>
+                            <th class="px-6 py-4 text-left text-xs font-heading font-semibold text-text-primary uppercase tracking-wider">Última Actualización</th>
+                            <th class="px-6 py-4 text-center text-xs font-heading font-semibold text-text-primary uppercase tracking-wider">Velocidad Venta</th>
+                            <th class="px-6 py-4 text-center text-xs font-heading font-semibold text-text-primary uppercase tracking-wider">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="inventoryTableBody" class="bg-surface divide-y divide-border">
+                        <!-- Table rows will be dynamically inserted here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Inventory Cards (Mobile) -->
+        <div id="inventoryCards" class="lg:hidden space-y-4 mb-6">
+            <!-- Cards will be dynamically inserted here -->
+        </div>
+
+        <!-- Empty State -->
+        <div id="emptyState" class="hidden text-center py-12">
+            <svg class="w-24 h-24 mx-auto text-gray-300 mb-4" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+            </svg>
+            <h3 class="text-xl font-heading font-semibold text-text-primary mb-2">No se encontraron productos</h3>
+            <p class="text-text-secondary">Intenta ajustar los filtros para ver más resultados</p>
+        </div>
+
+        <!-- Stock Movement History -->
+        <div class="card p-6">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-xl font-heading font-bold text-primary">Historial de Movimientos Recientes</h3>
+                <button id="viewAllMovements" class="btn-ghost text-sm px-3 py-1">
+                    Ver Todo
+                    <svg class="w-4 h-4 inline-block ml-1" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
+                    </svg>
+                </button>
+            </div>
+            <div id="movementHistory" class="space-y-3">
+                <!-- Movement history items will be dynamically inserted here -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Add Stock Modal -->
+    <div id="addStockModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+        <div class="bg-surface rounded-lg max-w-md w-full max-h-[90vh] overflow-y-auto">
+            <div class="p-6 border-b border-border">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-xl font-heading font-bold text-primary">Añadir Stock</h3>
+                    <button id="closeAddStockModal" class="btn-ghost p-2 rounded-base">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <form id="addStockForm" class="p-6 space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-text-primary mb-2">Producto</label>
+                    <select id="productSelect" class="input" required>
+                        <option value="">Seleccionar producto...</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-text-primary mb-2">Cantidad a Añadir</label>
+                    <input type="number" id="quantityInput" class="input" min="1" required placeholder="Ej: 50">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-text-primary mb-2">Proveedor</label>
+                    <input type="text" id="supplierInput" class="input" placeholder="Nombre del proveedor">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-text-primary mb-2">Costo Unitario (€)</label>
+                    <input type="number" id="costInput" class="input" step="0.01" min="0" placeholder="Ej: 1.50">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-text-primary mb-2">Notas</label>
+                    <textarea id="notesInput" class="input" rows="3" placeholder="Información adicional..."></textarea>
+                </div>
+                <div class="flex gap-3 pt-4">
+                    <button type="submit" class="btn-primary flex-1 py-3">
+                        <svg class="w-5 h-5 inline-block mr-2" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                        </svg>
+                        Confirmar
+                    </button>
+                    <button type="button" id="cancelAddStock" class="btn-outline flex-1 py-3">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit Stock Modal -->
+    <div id="editStockModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+        <div class="bg-surface rounded-lg max-w-md w-full">
+            <div class="p-6 border-b border-border">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-xl font-heading font-bold text-primary">Ajustar Stock</h3>
+                    <button id="closeEditStockModal" class="btn-ghost p-2 rounded-base">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <form id="editStockForm" class="p-6 space-y-4">
+                <input type="hidden" id="editProductId">
+                <div>
+                    <label class="block text-sm font-medium text-text-primary mb-2">Producto</label>
+                    <input type="text" id="editProductName" class="input" readonly>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-text-primary mb-2">Stock Actual</label>
+                    <input type="number" id="editCurrentStock" class="input" readonly>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-text-primary mb-2">Nuevo Stock</label>
+                    <input type="number" id="editNewStock" class="input" min="0" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-text-primary mb-2">Motivo del Ajuste</label>
+                    <select id="editReason" class="input" required>
+                        <option value="">Seleccionar motivo...</option>
+                        <option value="restock">Reabastecimiento</option>
+                        <option value="correction">Corrección de Inventario</option>
+                        <option value="damage">Producto Dañado</option>
+                        <option value="return">Devolución</option>
+                        <option value="other">Otro</option>
+                    </select>
+                </div>
+                <div class="flex gap-3 pt-4">
+                    <button type="submit" class="btn-primary flex-1 py-3">
+                        <svg class="w-5 h-5 inline-block mr-2" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                        </svg>
+                        Actualizar
+                    </button>
+                    <button type="button" id="cancelEditStock" class="btn-outline flex-1 py-3">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="hidden fixed top-20 right-4 z-50 animate-slide-down">
+        <div class="card-elevated p-4 flex items-center gap-3 min-w-[300px]">
+            <div id="toastIcon" class="flex-shrink-0"></div>
+            <div class="flex-1">
+                <p id="toastMessage" class="text-sm font-medium text-text-primary"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mock Inventory Data
+        let inventory = [
+            {
+                id: 1,
+                name: 'Pilsen Botella',
+                brand: 'pilsen',
+                stock: 150,
+                minLevel: 30,
+                unitPrice: 2.50,
+                casePrice: 28.00,
+                lastRestocked: '2025-11-18',
+                salesVelocity: 'Alta',
+                image: 'https://images.pexels.com/photos/1552630/pexels-photo-1552630.jpeg?auto=compress&cs=tinysrgb&w=800'
+            },
+            {
+                id: 2,
+                name: 'Pilsen Caja (12 unidades)',
+                brand: 'pilsen',
+                stock: 45,
+                minLevel: 10,
+                unitPrice: null,
+                casePrice: 28.00,
+                lastRestocked: '2025-11-17',
+                salesVelocity: 'Media',
+                image: 'https://images.pexels.com/photos/1552630/pexels-photo-1552630.jpeg?auto=compress&cs=tinysrgb&w=800'
+            },
+            {
+                id: 3,
+                name: 'Heineken Botella',
+                brand: 'heineken',
+                stock: 120,
+                minLevel: 30,
+                unitPrice: 3.00,
+                casePrice: 34.00,
+                lastRestocked: '2025-11-19',
+                salesVelocity: 'Alta',
+                image: 'https://images.unsplash.com/photo-1608270586620-248524c67de9?q=80&w=800&auto=format&fit=crop'
+            },
+            {
+                id: 4,
+                name: 'Heineken Caja (12 unidades)',
+                brand: 'heineken',
+                stock: 38,
+                minLevel: 10,
+                unitPrice: null,
+                casePrice: 34.00,
+                lastRestocked: '2025-11-16',
+                salesVelocity: 'Media',
+                image: 'https://images.unsplash.com/photo-1608270586620-248524c67de9?q=80&w=800&auto=format&fit=crop'
+            },
+            {
+                id: 5,
+                name: 'Pilsen Lata',
+                brand: 'pilsen',
+                stock: 8,
+                minLevel: 30,
+                unitPrice: 2.20,
+                casePrice: 25.00,
+                lastRestocked: '2025-11-15',
+                salesVelocity: 'Baja',
+                image: 'https://images.pixabay.com/photo/2016/08/26/17/23/beer-1623477_1280.jpg?w=800'
+            },
+            {
+                id: 6,
+                name: 'Heineken Lata',
+                brand: 'heineken',
+                stock: 0,
+                minLevel: 30,
+                unitPrice: 2.80,
+                casePrice: 32.00,
+                lastRestocked: '2025-11-10',
+                salesVelocity: 'Media',
+                image: 'https://images.pixabay.com/photo/2017/02/15/10/39/salad-2068220_1280.jpg?w=800'
+            }
+        ];
+
+        // Stock Movement History
+        let movements = [
+            {
+                id: 1,
+                productName: 'Heineken Botella',
+                type: 'sale',
+                quantity: -12,
+                timestamp: '2025-11-20 18:45:00',
+                user: 'Cajero Principal'
+            },
+            {
+                id: 2,
+                productName: 'Pilsen Botella',
+                type: 'restock',
+                quantity: 50,
+                timestamp: '2025-11-20 14:30:00',
+                user: 'Gerente'
+            },
+            {
+                id: 3,
+                productName: 'Pilsen Caja (12 unidades)',
+                type: 'sale',
+                quantity: -2,
+                timestamp: '2025-11-20 12:15:00',
+                user: 'Cajero Principal'
+            }
+        ];
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            loadInventory();
+            renderInventory(inventory);
+            renderMovementHistory();
+            setupEventListeners();
+            updateDashboardStats();
+        });
+
+        // Setup Event Listeners
+        function setupEventListeners() {
+            // Mobile menu toggle
+            document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+                document.getElementById('mobileMenu').classList.toggle('hidden');
+            });
+
+            // Filter listeners
+            document.getElementById('searchInput').addEventListener('input', applyFilters);
+            document.getElementById('brandFilter').addEventListener('change', applyFilters);
+            document.getElementById('statusFilter').addEventListener('change', applyFilters);
+            document.getElementById('resetFilters').addEventListener('click', resetFilters);
+
+            // Modal listeners
+            document.getElementById('addStockBtn').addEventListener('click', openAddStockModal);
+            document.getElementById('closeAddStockModal').addEventListener('click', closeAddStockModal);
+            document.getElementById('cancelAddStock').addEventListener('click', closeAddStockModal);
+            document.getElementById('addStockForm').addEventListener('submit', handleAddStock);
+
+            document.getElementById('closeEditStockModal').addEventListener('click', closeEditStockModal);
+            document.getElementById('cancelEditStock').addEventListener('click', closeEditStockModal);
+            document.getElementById('editStockForm').addEventListener('submit', handleEditStock);
+
+            // Export/Import listeners
+            document.getElementById('exportBtn').addEventListener('click', exportToCSV);
+            document.getElementById('importBtn').addEventListener('click', () => showToast('Función de importación próximamente', 'info'));
+        }
+
+        // Get Stock Status
+        function getStockStatus(item) {
+            if (item.stock === 0) return 'out-of-stock';
+            if (item.stock <= item.minLevel) return 'low-stock';
+            return 'in-stock';
+        }
+
+        // Render Inventory
+        function renderInventory(items) {
+            const tableBody = document.getElementById('inventoryTableBody');
+            const cardsContainer = document.getElementById('inventoryCards');
+            const emptyState = document.getElementById('emptyState');
+
+            if (items.length === 0) {
+                tableBody.innerHTML = '';
+                cardsContainer.innerHTML = '';
+                emptyState.classList.remove('hidden');
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+
+            // Render Desktop Table
+            tableBody.innerHTML = items.map(item => {
+                const status = getStockStatus(item);
+                const statusBadge = status === 'out-of-stock' ? 
+                    '<span class="badge badge-error">Sin Stock</span>' :
+                    status === 'low-stock' ?
+                    '<span class="badge badge-warning">Stock Bajo</span>' :
+                    '<span class="badge badge-success">En Stock</span>';
+
+                const velocityColor = item.salesVelocity === 'Alta' ? 'text-success' :
+                                     item.salesVelocity === 'Media' ? 'text-warning' :
+                                     'text-text-secondary';
+
+                return `
+                    <tr class="hover:bg-gray-50 transition-colors">
+                        <td class="px-6 py-4">
+                            <div class="flex items-center gap-3">
+                                <img src="${item.image}" 
+                                     alt="${item.name}"
+                                     class="w-12 h-12 rounded-base object-cover"
+                                     loading="lazy"
+                                     onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;">
+                                <div>
+                                    <p class="font-medium text-text-primary">${item.name}</p>
+                                    <p class="text-sm text-text-secondary">ID: ${item.id}</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="text-sm text-text-primary capitalize">${item.brand}</span>
+                        </td>
+                        <td class="px-6 py-4 text-center">
+                            <span class="font-mono font-bold text-lg ${status === 'low-stock' ? 'text-warning' : status === 'out-of-stock' ? 'text-error' : 'text-success'}">${item.stock}</span>
+                        </td>
+                        <td class="px-6 py-4 text-center">
+                            <span class="font-mono text-sm text-text-secondary">${item.minLevel}</span>
+                        </td>
+                        <td class="px-6 py-4 text-center">
+                            ${statusBadge}
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="text-sm text-text-secondary">${formatDate(item.lastRestocked)}</span>
+                        </td>
+                        <td class="px-6 py-4 text-center">
+                            <span class="text-sm font-medium ${velocityColor}">${item.salesVelocity}</span>
+                        </td>
+                        <td class="px-6 py-4 text-center">
+                            <button onclick="openEditStockModal(${item.id})" class="btn-ghost p-2 rounded-base" title="Editar stock">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/>
+                                </svg>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+
+            // Render Mobile Cards
+            cardsContainer.innerHTML = items.map(item => {
+                const status = getStockStatus(item);
+                const statusBadge = status === 'out-of-stock' ? 
+                    '<span class="badge badge-error">Sin Stock</span>' :
+                    status === 'low-stock' ?
+                    '<span class="badge badge-warning">Stock Bajo</span>' :
+                    '<span class="badge badge-success">En Stock</span>';
+
+                return `
+                    <div class="card p-4">
+                        <div class="flex gap-4 mb-4">
+                            <img src="${item.image}" 
+                                 alt="${item.name}"
+                                 class="w-20 h-20 rounded-base object-cover flex-shrink-0"
+                                 loading="lazy">
+                            <div class="flex-1 min-w-0">
+                                <h3 class="font-heading font-bold text-primary mb-1 truncate">${item.name}</h3>
+                                <p class="text-sm text-text-secondary capitalize mb-2">${item.brand}</p>
+                                ${statusBadge}
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4 mb-4">
+                            <div>
+                                <p class="text-xs text-text-secondary mb-1">Stock Actual</p>
+                                <p class="font-mono font-bold text-xl ${status === 'low-stock' ? 'text-warning' : status === 'out-of-stock' ? 'text-error' : 'text-success'}">${item.stock}</p>
+                            </div>
+                            <div>
+                                <p class="text-xs text-text-secondary mb-1">Nivel Mínimo</p>
+                                <p class="font-mono text-lg text-text-primary">${item.minLevel}</p>
+                            </div>
+                            <div>
+                                <p class="text-xs text-text-secondary mb-1">Velocidad Venta</p>
+                                <p class="text-sm font-medium text-text-primary">${item.salesVelocity}</p>
+                            </div>
+                            <div>
+                                <p class="text-xs text-text-secondary mb-1">Última Actualización</p>
+                                <p class="text-sm text-text-primary">${formatDate(item.lastRestocked)}</p>
+                            </div>
+                        </div>
+                        <button onclick="openEditStockModal(${item.id})" class="btn-primary w-full py-2 text-sm">
+                            <svg class="w-4 h-4 inline-block mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/>
+                            </svg>
+                            Ajustar Stock
+                        </button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Apply Filters
+        function applyFilters() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const brandFilter = document.getElementById('brandFilter').value;
+            const statusFilter = document.getElementById('statusFilter').value;
+
+            let filtered = inventory.filter(item => {
+                // Search filter
+                if (searchTerm && !item.name.toLowerCase().includes(searchTerm)) return false;
+
+                // Brand filter
+                if (brandFilter !== 'all' && item.brand !== brandFilter) return false;
+
+                // Status filter
+                if (statusFilter !== 'all') {
+                    const status = getStockStatus(item);
+                    if (statusFilter !== status) return false;
+                }
+
+                return true;
+            });
+
+            renderInventory(filtered);
+        }
+
+        // Reset Filters
+        function resetFilters() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('brandFilter').value = 'all';
+            document.getElementById('statusFilter').value = 'all';
+            renderInventory(inventory);
+        }
+
+        // Update Dashboard Stats
+        function updateDashboardStats() {
+            const totalProducts = inventory.length;
+            const lowStockCount = inventory.filter(item => getStockStatus(item) === 'low-stock').length;
+            const outOfStockCount = inventory.filter(item => getStockStatus(item) === 'out-of-stock').length;
+            
+            // Calculate total value (simplified calculation)
+            const totalValue = inventory.reduce((sum, item) => {
+                const price = item.unitPrice || item.casePrice;
+                return sum + (item.stock * price);
+            }, 0);
+
+            document.getElementById('totalProducts').textContent = totalProducts;
+            document.getElementById('lowStockCount').textContent = lowStockCount;
+            document.getElementById('outOfStockCount').textContent = outOfStockCount;
+            document.getElementById('totalValue').textContent = `€${totalValue.toFixed(2).replace('.', ',')}`;
+        }
+
+        // Render Movement History
+        function renderMovementHistory() {
+            const container = document.getElementById('movementHistory');
+            
+            container.innerHTML = movements.slice(0, 5).map(movement => {
+                const isIncrease = movement.quantity > 0;
+                const icon = isIncrease ? 
+                    '<svg class="w-5 h-5 text-success" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v3.586L7.707 9.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 10.586V7z" clip-rule="evenodd"/></svg>' :
+                    '<svg class="w-5 h-5 text-error" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v3.586L7.707 9.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 10.586V7z" clip-rule="evenodd"/></svg>';
+
+                return `
+                    <div class="flex items-center gap-4 p-3 bg-gray-50 rounded-base">
+                        <div class="flex-shrink-0">
+                            ${icon}
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="font-medium text-text-primary truncate">${movement.productName}</p>
+                            <p class="text-sm text-text-secondary">${movement.user} • ${formatDateTime(movement.timestamp)}</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="font-mono font-bold ${isIncrease ? 'text-success' : 'text-error'}">${isIncrease ? '+' : ''}${movement.quantity}</p>
+                            <p class="text-xs text-text-secondary">${movement.type === 'sale' ? 'Venta' : 'Reabastecimiento'}</p>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Modal Functions
+        function openAddStockModal() {
+            const modal = document.getElementById('addStockModal');
+            const select = document.getElementById('productSelect');
+            
+            // Populate product select
+            select.innerHTML = '<option value="">Seleccionar producto...</option>' + 
+                inventory.map(item => `<option value="${item.id}">${item.name}</option>`).join('');
+            
+            modal.classList.remove('hidden');
+        }
+
+        function closeAddStockModal() {
+            document.getElementById('addStockModal').classList.add('hidden');
+            document.getElementById('addStockForm').reset();
+        }
+
+        function openEditStockModal(productId) {
+            const product = inventory.find(p => p.id === productId);
+            if (!product) return;
+
+            document.getElementById('editProductId').value = product.id;
+            document.getElementById('editProductName').value = product.name;
+            document.getElementById('editCurrentStock').value = product.stock;
+            document.getElementById('editNewStock').value = product.stock;
+            
+            document.getElementById('editStockModal').classList.remove('hidden');
+        }
+
+        function closeEditStockModal() {
+            document.getElementById('editStockModal').classList.add('hidden');
+            document.getElementById('editStockForm').reset();
+        }
+
+        // Handle Add Stock
+        function handleAddStock(e) {
+            e.preventDefault();
+            
+            const productId = parseInt(document.getElementById('productSelect').value);
+            const quantity = parseInt(document.getElementById('quantityInput').value);
+            const supplier = document.getElementById('supplierInput').value;
+            const cost = parseFloat(document.getElementById('costInput').value) || 0;
+            const notes = document.getElementById('notesInput').value;
+
+            const product = inventory.find(p => p.id === productId);
+            if (!product) return;
+
+            // Update stock
+            product.stock += quantity;
+            product.lastRestocked = new Date().toISOString().split('T')[0];
+
+            // Add movement record
+            movements.unshift({
+                id: movements.length + 1,
+                productName: product.name,
+                type: 'restock',
+                quantity: quantity,
+                timestamp: new Date().toISOString().replace('T', ' ').substring(0, 19),
+                user: 'Gerente'
+            });
+
+            saveInventory();
+            renderInventory(inventory);
+            renderMovementHistory();
+            updateDashboardStats();
+            closeAddStockModal();
+            showToast(`Stock añadido: ${quantity} unidades de ${product.name}`, 'success');
+        }
+
+        // Handle Edit Stock
+        function handleEditStock(e) {
+            e.preventDefault();
+            
+            const productId = parseInt(document.getElementById('editProductId').value);
+            const newStock = parseInt(document.getElementById('editNewStock').value);
+            const reason = document.getElementById('editReason').value;
+
+            const product = inventory.find(p => p.id === productId);
+            if (!product) return;
+
+            const difference = newStock - product.stock;
+            
+            // Update stock
+            product.stock = newStock;
+            product.lastRestocked = new Date().toISOString().split('T')[0];
+
+            // Add movement record
+            movements.unshift({
+                id: movements.length + 1,
+                productName: product.name,
+                type: difference > 0 ? 'restock' : 'adjustment',
+                quantity: difference,
+                timestamp: new Date().toISOString().replace('T', ' ').substring(0, 19),
+                user: 'Gerente'
+            });
+
+            saveInventory();
+            renderInventory(inventory);
+            renderMovementHistory();
+            updateDashboardStats();
+            closeEditStockModal();
+            showToast(`Stock actualizado: ${product.name}`, 'success');
+        }
+
+        // Export to CSV
+        function exportToCSV() {
+            const headers = ['ID', 'Producto', 'Marca', 'Stock', 'Nivel Mínimo', 'Estado', 'Última Actualización', 'Velocidad Venta'];
+            const rows = inventory.map(item => [
+                item.id,
+                item.name,
+                item.brand,
+                item.stock,
+                item.minLevel,
+                getStockStatus(item),
+                item.lastRestocked,
+                item.salesVelocity
+            ]);
+
+            let csv = headers.join(',') + '\n';
+            rows.forEach(row => {
+                csv += row.map(cell => `"${cell}"`).join(',') + '\n';
+            });
+
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `inventario_${new Date().toISOString().split('T')[0]}.csv`;
+            a.click();
+            window.URL.revokeObjectURL(url);
+
+            showToast('Inventario exportado correctamente', 'success');
+        }
+
+        // Format Date
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
+        }
+
+        // Format DateTime
+        function formatDateTime(dateTimeString) {
+            const date = new Date(dateTimeString);
+            return date.toLocaleString('es-ES', { 
+                day: '2-digit', 
+                month: '2-digit', 
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        // Toast Notification
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+            const toastIcon = document.getElementById('toastIcon');
+
+            const icons = {
+                success: '<svg class="w-6 h-6 text-success" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>',
+                error: '<svg class="w-6 h-6 text-error" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>',
+                info: '<svg class="w-6 h-6 text-info" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>'
+            };
+
+            toastIcon.innerHTML = icons[type] || icons.success;
+            toastMessage.textContent = message;
+            
+            toast.classList.remove('hidden');
+            
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 3000);
+        }
+
+        // LocalStorage Functions
+        function saveInventory() {
+            localStorage.setItem('beerStoreInventory', JSON.stringify(inventory));
+            localStorage.setItem('beerStoreMovements', JSON.stringify(movements));
+        }
+
+        function loadInventory() {
+            const savedInventory = localStorage.getItem('beerStoreInventory');
+            const savedMovements = localStorage.getItem('beerStoreMovements');
+            
+            if (savedInventory) {
+                inventory = JSON.parse(savedInventory);
+            }
+            if (savedMovements) {
+                movements = JSON.parse(savedMovements);
+            }
+        }
+    </script>
+<script id="dhws-dataInjector" src="../public/dhws-data-injector.js"></script>
+</body>
+</html>

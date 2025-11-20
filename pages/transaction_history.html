@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historial de Transacciones - Beer Store System</title>
+    <link rel="stylesheet" href="../css/main.css">
+  
+  <script type="module" async src="https://static.rocket.new/rocket-web.js?_cfg=https%3A%2F%2Fbeerstore5332back.builtwithrocket.new&_be=https%3A%2F%2Fapplication.rocket.new&_v=0.1.10"></script>
+  <script type="module" defer src="https://static.rocket.new/rocket-shot.js?v=0.0.1"></script>
+  </head>
+<body class="bg-background min-h-screen">
+    <!-- Header Navigation -->
+    <header class="bg-surface shadow-soft sticky top-0 z-50">
+        <nav class="max-w-9xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo -->
+                <div class="flex items-center gap-3">
+                    <svg class="w-10 h-10" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="48" height="48" rx="8" fill="#1B5E20"/>
+                        <path d="M24 12C20 12 18 14 18 18V30C18 34 20 36 24 36C28 36 30 34 30 30V18C30 14 28 12 24 12Z" fill="#FFA000"/>
+                        <ellipse cx="24" cy="18" rx="6" ry="2" fill="#FFD54F"/>
+                        <path d="M18 22H30" stroke="#FFD54F" stroke-width="1.5" stroke-linecap="round"/>
+                        <path d="M18 26H30" stroke="#FFD54F" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                    <div>
+                        <h1 class="text-xl font-heading font-bold text-primary">Beer Store</h1>
+                        <p class="text-xs text-text-secondary">Sistema de Gestión</p>
+                    </div>
+                </div>
+
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex items-center gap-2">
+                    <a href="product_catalog.html" class="btn-ghost px-4 py-2 rounded-base text-sm">
+                        <svg class="w-5 h-5 inline-block mr-2" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
+                        </svg>
+                        Catálogo
+                    </a>
+                    <a href="sales_checkout.html" class="btn-ghost px-4 py-2 rounded-base text-sm">
+                        <svg class="w-5 h-5 inline-block mr-2" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"/>
+                        </svg>
+                        Caja
+                    </a>
+                    <a href="inventory_management.html" class="btn-ghost px-4 py-2 rounded-base text-sm">
+                        <svg class="w-5 h-5 inline-block mr-2" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/>
+                        </svg>
+                        Inventario
+                    </a>
+                    <a href="transaction_history.html" class="btn-primary px-4 py-2 rounded-base text-sm">
+                        <svg class="w-5 h-5 inline-block mr-2" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/>
+                        </svg>
+                        Historial
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobileMenuBtn" class="md:hidden btn-ghost p-2 rounded-base">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"/>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Mobile Navigation Menu -->
+            <div id="mobileMenu" class="hidden md:hidden pb-4 space-y-2">
+                <a href="product_catalog.html" class="block btn-ghost px-4 py-2 rounded-base text-sm">Catálogo de Productos</a>
+                <a href="sales_checkout.html" class="block btn-ghost px-4 py-2 rounded-base text-sm">Caja de Ventas</a>
+                <a href="inventory_management.html" class="block btn-ghost px-4 py-2 rounded-base text-sm">Gestión de Inventario</a>
+                <a href="transaction_history.html" class="block btn-primary px-4 py-2 rounded-base text-sm">Historial de Transacciones</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-9xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <!-- Page Header -->
+        <div class="mb-6">
+            <h2 class="text-3xl font-heading font-bold text-primary mb-2">Historial de Transacciones</h2>
+            <p class="text-text-secondary">Revisa ventas pasadas y gestiona registros de clientes</p>
+        </div>
+
+        <!-- Analytics Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+            <!-- Total Sales Card -->
+            <div class="card p-4 hover-lift">
+                <div class="flex items-center justify-between mb-2">
+                    <div class="p-2 bg-success-light rounded-base">
+                        <svg class="w-6 h-6 text-success" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z"/>
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.076-2.354-1.253V5z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                    <span class="text-xs text-text-secondary">Hoy</span>
+                </div>
+                <div class="font-heading font-bold text-2xl text-primary mb-1" id="todaySales">€0,00</div>
+                <div class="text-sm text-text-secondary">Ventas del Día</div>
+            </div>
+
+            <!-- Total Transactions Card -->
+            <div class="card p-4 hover-lift">
+                <div class="flex items-center justify-between mb-2">
+                    <div class="p-2 bg-info-light rounded-base">
+                        <svg class="w-6 h-6 text-info" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/>
+                            <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                    <span class="text-xs text-text-secondary">Total</span>
+                </div>
+                <div class="font-heading font-bold text-2xl text-primary mb-1" id="totalTransactions">0</div>
+                <div class="text-sm text-text-secondary">Transacciones</div>
+            </div>
+
+            <!-- Average Transaction Card -->
+            <div class="card p-4 hover-lift">
+                <div class="flex items-center justify-between mb-2">
+                    <div class="p-2 bg-secondary-100 rounded-base">
+                        <svg class="w-6 h-6 text-secondary" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2.586l-1.293 1.293a1 1 0 101.414 1.414L10 15.414l2.293 2.293a1 1 0 001.414-1.414L12.414 15H15a2 2 0 002-2V5a1 1 0 100-2H3zm11 4a1 1 0 10-2 0v4a1 1 0 102 0V7zm-3 1a1 1 0 10-2 0v3a1 1 0 102 0V8zM8 9a1 1 0 00-2 0v2a1 1 0 102 0V9z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                    <span class="text-xs text-text-secondary">Promedio</span>
+                </div>
+                <div class="font-heading font-bold text-2xl text-primary mb-1" id="avgTransaction">€0,00</div>
+                <div class="text-sm text-text-secondary">Ticket Promedio</div>
+            </div>
+
+            <!-- Repeat Customers Card -->
+            <div class="card p-4 hover-lift">
+                <div class="flex items-center justify-between mb-2">
+                    <div class="p-2 bg-accent-100 rounded-base">
+                        <svg class="w-6 h-6 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"/>
+                        </svg>
+                    </div>
+                    <span class="text-xs text-text-secondary">Clientes</span>
+                </div>
+                <div class="font-heading font-bold text-2xl text-primary mb-1" id="repeatCustomers">0</div>
+                <div class="text-sm text-text-secondary">Clientes Recurrentes</div>
+            </div>
+        </div>
+
+        <!-- Search and Filter Section -->
+        <div class="card p-4 mb-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+                <!-- Customer Search -->
+                <div>
+                    <label class="block text-sm font-medium text-text-primary mb-2">Buscar Cliente</label>
+                    <div class="relative">
+                        <input type="text" id="customerSearch" placeholder="Nombre del cliente..." class="input pl-10">
+                        <svg class="w-5 h-5 text-text-secondary absolute left-3 top-1/2 transform -translate-y-1/2" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Date From -->
+                <div>
+                    <label class="block text-sm font-medium text-text-primary mb-2">Fecha Desde</label>
+                    <input type="date" id="dateFrom" class="input">
+                </div>
+
+                <!-- Date To -->
+                <div>
+                    <label class="block text-sm font-medium text-text-primary mb-2">Fecha Hasta</label>
+                    <input type="date" id="dateTo" class="input">
+                </div>
+
+                <!-- Payment Method Filter -->
+                <div>
+                    <label class="block text-sm font-medium text-text-primary mb-2">Método de Pago</label>
+                    <select id="paymentFilter" class="input">
+                        <option value="all">Todos</option>
+                        <option value="cash">Efectivo</option>
+                        <option value="card">Tarjeta</option>
+                        <option value="transfer">Transferencia</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Amount Range Filter -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                <div>
+                    <label class="block text-sm font-medium text-text-primary mb-2">Monto Mínimo</label>
+                    <input type="number" id="minAmount" placeholder="€0,00" class="input" step="0.01">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-text-primary mb-2">Monto Máximo</label>
+                    <input type="number" id="maxAmount" placeholder="€999,99" class="input" step="0.01">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-text-primary mb-2">Buscar Producto</label>
+                    <input type="text" id="productSearch" placeholder="Nombre del producto..." class="input">
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex flex-wrap gap-2">
+                <button id="applyFilters" class="btn-primary px-4 py-2">
+                    <svg class="w-5 h-5 inline-block mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z" clip-rule="evenodd"/>
+                    </svg>
+                    Aplicar Filtros
+                </button>
+                <button id="resetFilters" class="btn-outline px-4 py-2">
+                    <svg class="w-5 h-5 inline-block mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd"/>
+                    </svg>
+                    Restablecer
+                </button>
+                <button id="exportCSV" class="btn-secondary px-4 py-2 ml-auto">
+                    <svg class="w-5 h-5 inline-block mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                    </svg>
+                    Exportar CSV
+                </button>
+            </div>
+        </div>
+
+        <!-- Transactions Table (Desktop) -->
+        <div class="hidden lg:block card overflow-hidden mb-6">
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead class="bg-gray-50 border-b border-border">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-text-secondary uppercase tracking-wider">ID Transacción</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-text-secondary uppercase tracking-wider">Fecha y Hora</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-text-secondary uppercase tracking-wider">Cliente</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-text-secondary uppercase tracking-wider">Productos</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-text-secondary uppercase tracking-wider">Método de Pago</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-text-secondary uppercase tracking-wider">Total</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-text-secondary uppercase tracking-wider">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="transactionsTableBody" class="bg-surface divide-y divide-border">
+                        <!-- Transaction rows will be dynamically inserted here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Transactions Cards (Mobile) -->
+        <div id="transactionsCards" class="lg:hidden space-y-4 mb-6">
+            <!-- Transaction cards will be dynamically inserted here -->
+        </div>
+
+        <!-- Empty State -->
+        <div id="emptyState" class="hidden text-center py-12">
+            <svg class="w-24 h-24 mx-auto text-gray-300 mb-4" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+            </svg>
+            <h3 class="text-xl font-heading font-semibold text-text-primary mb-2">No se encontraron transacciones</h3>
+            <p class="text-text-secondary">Intenta ajustar los filtros para ver más resultados</p>
+        </div>
+
+        <!-- Pagination -->
+        <div id="pagination" class="flex items-center justify-between mt-6">
+            <div class="text-sm text-text-secondary">
+                Mostrando <span id="showingFrom" class="font-medium">0</span> a <span id="showingTo" class="font-medium">0</span> de <span id="totalResults" class="font-medium">0</span> resultados
+            </div>
+            <div class="flex gap-2">
+                <button id="prevPage" class="btn-outline px-3 py-2 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                    </svg>
+                </button>
+                <button id="nextPage" class="btn-outline px-3 py-2 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Transaction Detail Modal -->
+    <div id="detailModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+        <div class="bg-surface rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="p-6 border-b border-border flex items-center justify-between sticky top-0 bg-surface">
+                <h3 class="text-xl font-heading font-bold text-primary">Detalles de Transacción</h3>
+                <button id="closeDetailModal" class="btn-ghost p-2 rounded-base">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                    </svg>
+                </button>
+            </div>
+            <div id="detailContent" class="p-6">
+                <!-- Detail content will be dynamically inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="hidden fixed top-20 right-4 z-50 animate-slide-down">
+        <div class="card-elevated p-4 flex items-center gap-3 min-w-[300px]">
+            <div id="toastIcon" class="flex-shrink-0"></div>
+            <div class="flex-1">
+                <p id="toastMessage" class="text-sm font-medium text-text-primary"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mock Transaction Data
+        const mockTransactions = [
+            {
+                id: 'TXN-2025-001',
+                date: '2025-01-20',
+                time: '14:35:22',
+                customer: 'Carlos Rodríguez',
+                items: [
+                    { name: 'Pilsen Botella', quantity: 6, unitPrice: 2.50, total: 15.00 },
+                    { name: 'Heineken Caja', quantity: 1, unitPrice: 34.00, total: 34.00 }
+                ],
+                paymentMethod: 'card',
+                subtotal: 49.00,
+                tax: 10.29,
+                total: 59.29,
+                notes: ''
+            },
+            {
+                id: 'TXN-2025-002',
+                date: '2025-01-20',
+                time: '13:20:15',
+                customer: 'María González',
+                items: [
+                    { name: 'Heineken Botella', quantity: 12, unitPrice: 3.00, total: 36.00 }
+                ],
+                paymentMethod: 'cash',
+                subtotal: 36.00,
+                tax: 7.56,
+                total: 43.56,
+                notes: ''
+            },
+            {
+                id: 'TXN-2025-003',
+                date: '2025-01-20',
+                time: '11:45:30',
+                customer: 'Juan Martínez',
+                items: [
+                    { name: 'Pilsen Caja', quantity: 2, unitPrice: 28.00, total: 56.00 },
+                    { name: 'Pilsen Botella', quantity: 3, unitPrice: 2.50, total: 7.50 }
+                ],
+                paymentMethod: 'transfer',
+                subtotal: 63.50,
+                tax: 13.34,
+                total: 76.84,
+                notes: 'Cliente frecuente'
+            },
+            {
+                id: 'TXN-2025-004',
+                date: '2025-01-19',
+                time: '18:10:45',
+                customer: 'Ana López',
+                items: [
+                    { name: 'Heineken Lata', quantity: 24, unitPrice: 2.80, total: 67.20 }
+                ],
+                paymentMethod: 'card',
+                subtotal: 67.20,
+                tax: 14.11,
+                total: 81.31,
+                notes: ''
+            },
+            {
+                id: 'TXN-2025-005',
+                date: '2025-01-19',
+                time: '16:30:20',
+                customer: 'Pedro Sánchez',
+                items: [
+                    { name: 'Pilsen Botella', quantity: 18, unitPrice: 2.50, total: 45.00 }
+                ],
+                paymentMethod: 'cash',
+                subtotal: 45.00,
+                tax: 9.45,
+                total: 54.45,
+                notes: ''
+            },
+            {
+                id: 'TXN-2025-006',
+                date: '2025-01-19',
+                time: '14:55:10',
+                customer: 'Laura Fernández',
+                items: [
+                    { name: 'Heineken Caja', quantity: 2, unitPrice: 34.00, total: 68.00 },
+                    { name: 'Pilsen Lata', quantity: 6, unitPrice: 2.20, total: 13.20 }
+                ],
+                paymentMethod: 'card',
+                subtotal: 81.20,
+                tax: 17.05,
+                total: 98.25,
+                notes: 'Pedido especial'
+            },
+            {
+                id: 'TXN-2025-007',
+                date: '2025-01-18',
+                time: '17:25:35',
+                customer: 'Miguel Torres',
+                items: [
+                    { name: 'Pilsen Caja', quantity: 1, unitPrice: 28.00, total: 28.00 }
+                ],
+                paymentMethod: 'transfer',
+                subtotal: 28.00,
+                tax: 5.88,
+                total: 33.88,
+                notes: ''
+            },
+            {
+                id: 'TXN-2025-008',
+                date: '2025-01-18',
+                time: '15:40:50',
+                customer: 'Carmen Ruiz',
+                items: [
+                    { name: 'Heineken Botella', quantity: 6, unitPrice: 3.00, total: 18.00 },
+                    { name: 'Pilsen Botella', quantity: 6, unitPrice: 2.50, total: 15.00 }
+                ],
+                paymentMethod: 'cash',
+                subtotal: 33.00,
+                tax: 6.93,
+                total: 39.93,
+                notes: ''
+            }
+        ];
+
+        // State
+        let filteredTransactions = [...mockTransactions];
+        let currentPage = 1;
+        const itemsPerPage = 10;
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            setupEventListeners();
+            setDefaultDates();
+            updateAnalytics();
+            renderTransactions();
+        });
+
+        // Setup Event Listeners
+        function setupEventListeners() {
+            // Mobile menu toggle
+            document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+                document.getElementById('mobileMenu').classList.toggle('hidden');
+            });
+
+            // Filter buttons
+            document.getElementById('applyFilters').addEventListener('click', applyFilters);
+            document.getElementById('resetFilters').addEventListener('click', resetFilters);
+            document.getElementById('exportCSV').addEventListener('click', exportToCSV);
+
+            // Pagination
+            document.getElementById('prevPage').addEventListener('click', () => changePage(-1));
+            document.getElementById('nextPage').addEventListener('click', () => changePage(1));
+
+            // Modal
+            document.getElementById('closeDetailModal').addEventListener('click', closeDetailModal);
+        }
+
+        // Set Default Dates
+        function setDefaultDates() {
+            const today = new Date();
+            const lastWeek = new Date(today);
+            lastWeek.setDate(lastWeek.getDate() - 7);
+
+            document.getElementById('dateTo').value = today.toISOString().split('T')[0];
+            document.getElementById('dateFrom').value = lastWeek.toISOString().split('T')[0];
+        }
+
+        // Update Analytics
+        function updateAnalytics() {
+            const today = new Date().toISOString().split('T')[0];
+            const todayTransactions = mockTransactions.filter(t => t.date === today);
+            
+            // Today's sales
+            const todaySales = todayTransactions.reduce((sum, t) => sum + t.total, 0);
+            document.getElementById('todaySales').textContent = `€${todaySales.toFixed(2)}`;
+
+            // Total transactions
+            document.getElementById('totalTransactions').textContent = mockTransactions.length;
+
+            // Average transaction
+            const avgTransaction = mockTransactions.reduce((sum, t) => sum + t.total, 0) / mockTransactions.length;
+            document.getElementById('avgTransaction').textContent = `€${avgTransaction.toFixed(2)}`;
+
+            // Repeat customers
+            const customers = mockTransactions.map(t => t.customer);
+            const uniqueCustomers = new Set(customers);
+            const repeatCustomers = customers.length - uniqueCustomers.size;
+            document.getElementById('repeatCustomers').textContent = repeatCustomers;
+        }
+
+        // Apply Filters
+        function applyFilters() {
+            const customerSearch = document.getElementById('customerSearch').value.toLowerCase();
+            const dateFrom = document.getElementById('dateFrom').value;
+            const dateTo = document.getElementById('dateTo').value;
+            const paymentFilter = document.getElementById('paymentFilter').value;
+            const minAmount = parseFloat(document.getElementById('minAmount').value) || 0;
+            const maxAmount = parseFloat(document.getElementById('maxAmount').value) || Infinity;
+            const productSearch = document.getElementById('productSearch').value.toLowerCase();
+
+            filteredTransactions = mockTransactions.filter(transaction => {
+                // Customer filter
+                if (customerSearch && !transaction.customer.toLowerCase().includes(customerSearch)) {
+                    return false;
+                }
+
+                // Date range filter
+                if (dateFrom && transaction.date < dateFrom) return false;
+                if (dateTo && transaction.date > dateTo) return false;
+
+                // Payment method filter
+                if (paymentFilter !== 'all' && transaction.paymentMethod !== paymentFilter) {
+                    return false;
+                }
+
+                // Amount range filter
+                if (transaction.total < minAmount || transaction.total > maxAmount) {
+                    return false;
+                }
+
+                // Product search filter
+                if (productSearch) {
+                    const hasProduct = transaction.items.some(item => 
+                        item.name.toLowerCase().includes(productSearch)
+                    );
+                    if (!hasProduct) return false;
+                }
+
+                return true;
+            });
+
+            currentPage = 1;
+            renderTransactions();
+            showToast('Filtros aplicados correctamente', 'success');
+        }
+
+        // Reset Filters
+        function resetFilters() {
+            document.getElementById('customerSearch').value = '';
+            document.getElementById('paymentFilter').value = 'all';
+            document.getElementById('minAmount').value = '';
+            document.getElementById('maxAmount').value = '';
+            document.getElementById('productSearch').value = '';
+            setDefaultDates();
+
+            filteredTransactions = [...mockTransactions];
+            currentPage = 1;
+            renderTransactions();
+            showToast('Filtros restablecidos', 'info');
+        }
+
+        // Render Transactions
+        function renderTransactions() {
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+            const pageTransactions = filteredTransactions.slice(startIndex, endIndex);
+
+            // Update pagination info
+            document.getElementById('showingFrom').textContent = filteredTransactions.length > 0 ? startIndex + 1 : 0;
+            document.getElementById('showingTo').textContent = Math.min(endIndex, filteredTransactions.length);
+            document.getElementById('totalResults').textContent = filteredTransactions.length;
+
+            // Update pagination buttons
+            document.getElementById('prevPage').disabled = currentPage === 1;
+            document.getElementById('nextPage').disabled = endIndex >= filteredTransactions.length;
+
+            // Show/hide empty state
+            const emptyState = document.getElementById('emptyState');
+            if (filteredTransactions.length === 0) {
+                emptyState.classList.remove('hidden');
+                document.getElementById('transactionsTableBody').innerHTML = '';
+                document.getElementById('transactionsCards').innerHTML = '';
+                return;
+            }
+            emptyState.classList.add('hidden');
+
+            // Render desktop table
+            renderDesktopTable(pageTransactions);
+
+            // Render mobile cards
+            renderMobileCards(pageTransactions);
+        }
+
+        // Render Desktop Table
+        function renderDesktopTable(transactions) {
+            const tbody = document.getElementById('transactionsTableBody');
+            tbody.innerHTML = transactions.map(transaction => {
+                const paymentMethodText = {
+                    'cash': 'Efectivo',
+                    'card': 'Tarjeta',
+                    'transfer': 'Transferencia'
+                }[transaction.paymentMethod];
+
+                const itemsSummary = transaction.items.length === 1 
+                    ? transaction.items[0].name 
+                    : `${transaction.items.length} productos`;
+
+                return `
+                    <tr class="hover:bg-gray-50 transition-colors">
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="font-mono text-sm font-medium text-primary">${transaction.id}</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-text-primary">${formatDate(transaction.date)}</div>
+                            <div class="text-xs text-text-secondary">${transaction.time}</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm font-medium text-text-primary">${transaction.customer}</div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="text-sm text-text-primary">${itemsSummary}</div>
+                            <div class="text-xs text-text-secondary">${transaction.items.reduce((sum, item) => sum + item.quantity, 0)} unidades</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="badge badge-info">${paymentMethodText}</span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="font-heading font-bold text-primary">€${transaction.total.toFixed(2)}</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm">
+                            <button onclick="viewTransactionDetail('${transaction.id}')" class="btn-ghost p-2 rounded-base" title="Ver detalles">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
+                                    <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/>
+                                </svg>
+                            </button>
+                            <button onclick="printReceipt('${transaction.id}')" class="btn-ghost p-2 rounded-base" title="Imprimir recibo">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M5 4v3H4a2 2 0 00-2 2v3a2 2 0 002 2h1v2a2 2 0 002 2h6a2 2 0 002-2v-2h1a2 2 0 002-2V9a2 2 0 00-2-2h-1V4a2 2 0 00-2-2H7a2 2 0 00-2 2zm8 0H7v3h6V4zm0 8H7v4h6v-4z" clip-rule="evenodd"/>
+                                </svg>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // Render Mobile Cards
+        function renderMobileCards(transactions) {
+            const container = document.getElementById('transactionsCards');
+            container.innerHTML = transactions.map(transaction => {
+                const paymentMethodText = {
+                    'cash': 'Efectivo',
+                    'card': 'Tarjeta',
+                    'transfer': 'Transferencia'
+                }[transaction.paymentMethod];
+
+                return `
+                    <div class="card p-4">
+                        <div class="flex items-start justify-between mb-3">
+                            <div>
+                                <div class="font-mono text-sm font-medium text-primary mb-1">${transaction.id}</div>
+                                <div class="text-xs text-text-secondary">${formatDate(transaction.date)} • ${transaction.time}</div>
+                            </div>
+                            <span class="badge badge-info">${paymentMethodText}</span>
+                        </div>
+                        <div class="mb-3">
+                            <div class="text-sm font-medium text-text-primary mb-1">${transaction.customer}</div>
+                            <div class="text-xs text-text-secondary">${transaction.items.length} producto(s) • ${transaction.items.reduce((sum, item) => sum + item.quantity, 0)} unidades</div>
+                        </div>
+                        <div class="flex items-center justify-between pt-3 border-t border-border">
+                            <div class="font-heading font-bold text-xl text-primary">€${transaction.total.toFixed(2)}</div>
+                            <div class="flex gap-2">
+                                <button onclick="viewTransactionDetail('${transaction.id}')" class="btn-ghost p-2 rounded-base">
+                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                        <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
+                                        <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/>
+                                    </svg>
+                                </button>
+                                <button onclick="printReceipt('${transaction.id}')" class="btn-ghost p-2 rounded-base">
+                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M5 4v3H4a2 2 0 00-2 2v3a2 2 0 002 2h1v2a2 2 0 002 2h6a2 2 0 002-2v-2h1a2 2 0 002-2V9a2 2 0 00-2-2h-1V4a2 2 0 00-2-2H7a2 2 0 00-2 2zm8 0H7v3h6V4zm0 8H7v4h6v-4z" clip-rule="evenodd"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // View Transaction Detail
+        function viewTransactionDetail(transactionId) {
+            const transaction = mockTransactions.find(t => t.id === transactionId);
+            if (!transaction) return;
+
+            const paymentMethodText = {
+                'cash': 'Efectivo',
+                'card': 'Tarjeta',
+                'transfer': 'Transferencia'
+            }[transaction.paymentMethod];
+
+            const detailContent = document.getElementById('detailContent');
+            detailContent.innerHTML = `
+                <div class="space-y-6">
+                    <!-- Transaction Info -->
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <div class="text-sm text-text-secondary mb-1">ID Transacción</div>
+                            <div class="font-mono font-medium text-primary">${transaction.id}</div>
+                        </div>
+                        <div>
+                            <div class="text-sm text-text-secondary mb-1">Fecha y Hora</div>
+                            <div class="font-medium text-text-primary">${formatDate(transaction.date)} ${transaction.time}</div>
+                        </div>
+                        <div>
+                            <div class="text-sm text-text-secondary mb-1">Cliente</div>
+                            <div class="font-medium text-text-primary">${transaction.customer}</div>
+                        </div>
+                        <div>
+                            <div class="text-sm text-text-secondary mb-1">Método de Pago</div>
+                            <span class="badge badge-info">${paymentMethodText}</span>
+                        </div>
+                    </div>
+
+                    <!-- Items Table -->
+                    <div>
+                        <h4 class="font-heading font-semibold text-text-primary mb-3">Productos Comprados</h4>
+                        <div class="border border-border rounded-base overflow-hidden">
+                            <table class="w-full">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th class="px-4 py-2 text-left text-xs font-medium text-text-secondary">Producto</th>
+                                        <th class="px-4 py-2 text-right text-xs font-medium text-text-secondary">Cantidad</th>
+                                        <th class="px-4 py-2 text-right text-xs font-medium text-text-secondary">Precio Unit.</th>
+                                        <th class="px-4 py-2 text-right text-xs font-medium text-text-secondary">Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-border">
+                                    ${transaction.items.map(item => `
+                                        <tr>
+                                            <td class="px-4 py-3 text-sm text-text-primary">${item.name}</td>
+                                            <td class="px-4 py-3 text-sm text-text-primary text-right">${item.quantity}</td>
+                                            <td class="px-4 py-3 text-sm text-text-primary text-right">€${item.unitPrice.toFixed(2)}</td>
+                                            <td class="px-4 py-3 text-sm font-medium text-primary text-right">€${item.total.toFixed(2)}</td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Totals -->
+                    <div class="bg-gray-50 rounded-base p-4 space-y-2">
+                        <div class="flex justify-between text-sm">
+                            <span class="text-text-secondary">Subtotal</span>
+                            <span class="font-medium text-text-primary">€${transaction.subtotal.toFixed(2)}</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-text-secondary">IVA (21%)</span>
+                            <span class="font-medium text-text-primary">€${transaction.tax.toFixed(2)}</span>
+                        </div>
+                        <div class="h-px bg-border"></div>
+                        <div class="flex justify-between">
+                            <span class="font-heading font-bold text-primary">Total</span>
+                            <span class="font-heading font-bold text-primary text-xl">€${transaction.total.toFixed(2)}</span>
+                        </div>
+                    </div>
+
+                    ${transaction.notes ? `
+                        <div>
+                            <div class="text-sm text-text-secondary mb-2">Notas</div>
+                            <div class="bg-gray-50 rounded-base p-3 text-sm text-text-primary">${transaction.notes}</div>
+                        </div>
+                    ` : ''}
+
+                    <!-- Actions -->
+                    <div class="flex gap-2 pt-4 border-t border-border">
+                        <button onclick="printReceipt('${transaction.id}')" class="btn-primary flex-1 py-2">
+                            <svg class="w-5 h-5 inline-block mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M5 4v3H4a2 2 0 00-2 2v3a2 2 0 002 2h1v2a2 2 0 002 2h6a2 2 0 002-2v-2h1a2 2 0 002-2V9a2 2 0 00-2-2h-1V4a2 2 0 00-2-2H7a2 2 0 00-2 2zm8 0H7v3h6V4zm0 8H7v4h6v-4z" clip-rule="evenodd"/>
+                            </svg>
+                            Imprimir Recibo
+                        </button>
+                        <button onclick="closeDetailModal()" class="btn-outline flex-1 py-2">Cerrar</button>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('detailModal').classList.remove('hidden');
+        }
+
+        // Close Detail Modal
+        function closeDetailModal() {
+            document.getElementById('detailModal').classList.add('hidden');
+        }
+
+        // Print Receipt
+        function printReceipt(transactionId) {
+            const transaction = mockTransactions.find(t => t.id === transactionId);
+            if (!transaction) return;
+
+            showToast(`Imprimiendo recibo ${transactionId}...`, 'success');
+            // In a real application, this would trigger actual printing
+        }
+
+        // Export to CSV
+        function exportToCSV() {
+            if (filteredTransactions.length === 0) {
+                showToast('No hay transacciones para exportar', 'error');
+                return;
+            }
+
+            const headers = ['ID Transacción', 'Fecha', 'Hora', 'Cliente', 'Productos', 'Método de Pago', 'Subtotal', 'IVA', 'Total'];
+            const rows = filteredTransactions.map(t => [
+                t.id,
+                formatDate(t.date),
+                t.time,
+                t.customer,
+                t.items.map(item => `${item.name} (${item.quantity})`).join('; '),
+                t.paymentMethod,
+                t.subtotal.toFixed(2),
+                t.tax.toFixed(2),
+                t.total.toFixed(2)
+            ]);
+
+            const csv = [headers, ...rows].map(row => row.join(',')).join('\n');
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `transacciones_${new Date().toISOString().split('T')[0]}.csv`;
+            a.click();
+            window.URL.revokeObjectURL(url);
+
+            showToast('Archivo CSV exportado correctamente', 'success');
+        }
+
+        // Change Page
+        function changePage(direction) {
+            currentPage += direction;
+            renderTransactions();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Format Date
+        function formatDate(dateString) {
+            const [year, month, day] = dateString.split('-');
+            return `${day}/${month}/${year}`;
+        }
+
+        // Toast Notification
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+            const toastIcon = document.getElementById('toastIcon');
+
+            const icons = {
+                success: '<svg class="w-6 h-6 text-success" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>',
+                error: '<svg class="w-6 h-6 text-error" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>',
+                info: '<svg class="w-6 h-6 text-info" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>'
+            };
+
+            toastIcon.innerHTML = icons[type] || icons.success;
+            toastMessage.textContent = message;
+            
+            toast.classList.remove('hidden');
+            
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 3000);
+        }
+    </script>
+<script id="dhws-dataInjector" src="../public/dhws-data-injector.js"></script>
+</body>
+</html>
