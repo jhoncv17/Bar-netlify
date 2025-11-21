@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Caja de Ventas - Adriana Store System</title>
+    <title>Caja de Ventas - Adriana StoreSystem</title>
     <link rel="stylesheet" href="../css/main.css">
   
   <script type="module" async src="https://static.rocket.new/rocket-web.js?_cfg=https%3A%2F%2Fbeerstore5332back.builtwithrocket.new&_be=https%3A%2F%2Fapplication.rocket.new&_v=0.1.10"></script>
@@ -247,59 +247,59 @@
                     </div>
                 </div>
 
-<!-- Total Summary Card -->
-<div class="card">
-    <div class="p-6 border-b border-border">
-        <h3 class="text-xl font-heading font-bold text-primary">Resumen de Pago</h3>
-    </div>
-    <div class="p-6 space-y-4">
-        <div class="flex justify-between text-base">
-            <span class="text-text-secondary">Subtotal</span>
-            <span id="checkoutSubtotal" class="font-medium text-text-primary">S/0,00</span>
-        </div>
-        <div class="flex justify-between text-base">
-            <span class="text-text-secondary">IGV (18%)</span>
-            <span id="checkoutTax" class="font-medium text-text-primary">S/0,00</span>
-        </div>
-        <div class="h-px bg-border"></div>
-        <div class="flex justify-between items-center">
-            <span class="text-xl font-heading font-bold text-primary">Total a Pagar</span>
-            <span id="checkoutTotal" class="text-3xl font-heading font-bold text-primary">S/0,00</span>
-        </div>
-        
-        <!-- Action Buttons -->
-        <div class="space-y-3 pt-4">
-            <button id="processPaymentBtn" 
-                    class="btn-primary w-full py-4 text-lg font-semibold">
-                <svg class="w-6 h-6 inline-block mr-2" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                </svg>
-                Procesar Pago
-            </button>
-            
-            <button id="voidTransactionBtn" 
-                    class="btn-outline w-full py-3 text-error border-error hover:bg-error-light">
-                <svg class="w-5 h-5 inline-block mr-2" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
-                </svg>
-                Anular Transacción
-            </button>
-        </div>
+                <!-- Total Summary Card -->
+                <div class="card">
+                    <div class="p-6 border-b border-border">
+                        <h3 class="text-xl font-heading font-bold text-primary">Resumen de Pago</h3>
+                    </div>
+                    <div class="p-6 space-y-4">
+                        <div class="flex justify-between text-base">
+                            <span class="text-text-secondary">Subtotal</span>
+                            <span id="checkoutSubtotal" class="font-medium text-text-primary">€0,00</span>
+                        </div>
+                        <div class="flex justify-between text-base">
+                            <span class="text-text-secondary">IVA (21%)</span>
+                            <span id="checkoutTax" class="font-medium text-text-primary">€0,00</span>
+                        </div>
+                        <div class="h-px bg-border"></div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xl font-heading font-bold text-primary">Total a Pagar</span>
+                            <span id="checkoutTotal" class="text-3xl font-heading font-bold text-primary">€0,00</span>
+                        </div>
+                        
+                        <!-- Action Buttons -->
+                        <div class="space-y-3 pt-4">
+                            <button id="processPaymentBtn" 
+                                    class="btn-primary w-full py-4 text-lg font-semibold">
+                                <svg class="w-6 h-6 inline-block mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                </svg>
+                                Procesar Pago
+                            </button>
+                            
+                            <button id="voidTransactionBtn" 
+                                    class="btn-outline w-full py-3 text-error border-error hover:bg-error-light">
+                                <svg class="w-5 h-5 inline-block mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                                </svg>
+                                Anular Transacción
+                            </button>
+                        </div>
 
-        <!-- Stock Warning -->
-        <div id="stockWarning" class="hidden mt-4 p-4 bg-warning-light border border-warning rounded-base">
-            <div class="flex items-start">
-                <svg class="w-5 h-5 text-warning flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
-                </svg>
-                <div class="ml-3">
-                    <h4 class="text-sm font-medium text-warning-dark">Advertencia de Stock</h4>
-                    <p id="stockWarningMessage" class="text-sm text-text-secondary mt-1"></p>
+                        <!-- Stock Warning -->
+                        <div id="stockWarning" class="hidden mt-4 p-4 bg-warning-light border border-warning rounded-base">
+                            <div class="flex items-start">
+                                <svg class="w-5 h-5 text-warning flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                                </svg>
+                                <div class="ml-3">
+                                    <h4 class="text-sm font-medium text-warning-dark">Advertencia de Stock</h4>
+                                    <p id="stockWarningMessage" class="text-sm text-text-secondary mt-1"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
             </div>
         </div>
     </main>
@@ -321,21 +321,21 @@
                 <!-- Receipt will be dynamically generated here -->
             </div>
 
-<!-- Receipt Actions -->
-<div class="p-6 border-t border-border bg-gray-50 flex flex-col sm:flex-row gap-3">
-    <button id="printReceiptBtn" class="btn-primary flex-1 py-3">
-        <svg class="w-5 h-5 inline-block mr-2" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM6.293 6.707a1 1 0 010-1.414l3-3a1 1 0 011.414 0l3 3a1 1 0 01-1.414 1.414L11 5.414V13a1 1 0 11-2 0V5.414L7.707 6.707a1 1 0 01-1.414 0z"/>
-        </svg>
-        Descargar Boleta
-    </button>
-    <button id="newSaleBtn" class="btn-secondary flex-1 py-3">
-        <svg class="w-5 h-5 inline-block mr-2" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"/>
-        </svg>
-        Nueva Venta
-    </button>
-</div>
+            <!-- Receipt Actions -->
+            <div class="p-6 border-t border-border bg-gray-50 flex flex-col sm:flex-row gap-3">
+                <button id="printReceiptBtn" class="btn-primary flex-1 py-3">
+                    <svg class="w-5 h-5 inline-block mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M5 4v3H4a2 2 0 00-2 2v3a2 2 0 002 2h1v2a2 2 0 002 2h6a2 2 0 002-2v-2h1a2 2 0 002-2V9a2 2 0 00-2-2h-1V4a2 2 0 00-2-2H7a2 2 0 00-2 2zm8 0H7v3h6V4zm0 8H7v4h6v-4z" clip-rule="evenodd"/>
+                    </svg>
+                    Imprimir Recibo
+                </button>
+                <button id="newSaleBtn" class="btn-secondary flex-1 py-3">
+                    <svg class="w-5 h-5 inline-block mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"/>
+                    </svg>
+                    Nueva Venta
+                </button>
+            </div>
         </div>
     </div>
 
@@ -350,416 +350,514 @@
     </div>
 
     <script>
-    // Production-Ready Products Data Structure (Empty - Syncs with Catalog)
-    const products = [];
+        // Mock Products Data (same as catalog)
+        const products = [
+            {
+                id: 1,
+                name: 'Pilsen Botella',
+                brand: 'pilsen',
+                unitPrice: 2.50,
+                casePrice: 28.00,
+                stock: 150,
+                lowStockThreshold: 30
+            },
+            {
+                id: 2,
+                name: 'Pilsen Caja (12 unidades)',
+                brand: 'pilsen',
+                unitPrice: null,
+                casePrice: 28.00,
+                stock: 45,
+                lowStockThreshold: 10
+            },
+            {
+                id: 3,
+                name: 'Heineken Botella',
+                brand: 'heineken',
+                unitPrice: 3.00,
+                casePrice: 34.00,
+                stock: 120,
+                lowStockThreshold: 30
+            },
+            {
+                id: 4,
+                name: 'Heineken Caja (12 unidades)',
+                brand: 'heineken',
+                unitPrice: null,
+                casePrice: 34.00,
+                stock: 38,
+                lowStockThreshold: 10
+            },
+            {
+                id: 5,
+                name: 'Pilsen Lata',
+                brand: 'pilsen',
+                unitPrice: 2.20,
+                casePrice: 25.00,
+                stock: 8,
+                lowStockThreshold: 30
+            },
+            {
+                id: 6,
+                name: 'Heineken Lata',
+                brand: 'heineken',
+                unitPrice: 2.80,
+                casePrice: 32.00,
+                stock: 0,
+                lowStockThreshold: 30
+            }
+        ];
 
-    // State
-    let checkoutCart = [];
-    let currentTransaction = null;
+        // State
+        let checkoutCart = [];
+        let currentTransaction = null;
 
-    // Initialize
-    document.addEventListener('DOMContentLoaded', function() {
-        loadCheckoutCart();
-        setupEventListeners();
-        validateStock();
-    });
-
-    // Setup Event Listeners
-    function setupEventListeners() {
-        // Mobile menu toggle
-        document.getElementById('mobileMenuBtn').addEventListener('click', function() {
-            document.getElementById('mobileMenu').classList.toggle('hidden');
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            loadCheckoutCart();
+            setupEventListeners();
+            validateStock();
         });
 
-        // Payment processing
-        document.getElementById('processPaymentBtn').addEventListener('click', processPayment);
-        document.getElementById('voidTransactionBtn').addEventListener('click', voidTransaction);
-        
-        // Receipt modal
-        document.getElementById('closeReceiptModal').addEventListener('click', closeReceiptModal);
-        document.getElementById('printReceiptBtn').addEventListener('click', downloadReceipt);
-        document.getElementById('newSaleBtn').addEventListener('click', startNewSale);
-    }
+        // Setup Event Listeners
+        function setupEventListeners() {
+            // Mobile menu toggle
+            document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+                document.getElementById('mobileMenu').classList.toggle('hidden');
+            });
 
-    // Load Checkout Cart
-    function loadCheckoutCart() {
-        const saved = localStorage.getItem('checkoutCart');
-        if (saved) {
-            checkoutCart = JSON.parse(saved);
+            // Payment processing
+            document.getElementById('processPaymentBtn').addEventListener('click', processPayment);
+            document.getElementById('voidTransactionBtn').addEventListener('click', voidTransaction);
             
-            if (checkoutCart.length === 0) {
-                showEmptyState();
-            } else {
-                renderCheckout();
-            }
-        } else {
-            showEmptyState();
+            // Receipt modal
+            document.getElementById('closeReceiptModal').addEventListener('click', closeReceiptModal);
+            document.getElementById('printReceiptBtn').addEventListener('click', printReceipt);
+            document.getElementById('newSaleBtn').addEventListener('click', startNewSale);
         }
-    }
 
-    // Show Empty State
-    function showEmptyState() {
-        document.getElementById('emptyCheckout').classList.remove('hidden');
-        document.getElementById('checkoutContent').classList.add('hidden');
-    }
-
-    // Render Checkout
-    function renderCheckout() {
-        document.getElementById('emptyCheckout').classList.add('hidden');
-        document.getElementById('checkoutContent').classList.remove('hidden');
-        
-        renderOrderItems();
-        updateTotals();
-    }
-
-    // Render Order Items
-    function renderOrderItems() {
-        const tableBody = document.getElementById('orderItemsTable');
-        
-        const itemsHTML = checkoutCart.map(item => {
-            const lineTotal = item.price * item.quantity;
-            return `
-                <tr class="border-b border-border last:border-0">
-                    <td class="py-4 px-2">
-                        <div class="font-medium text-text-primary">${item.name}</div>
-                        <div class="text-sm text-text-secondary">${item.type === 'case' ? 'Caja (12 uds)' : 'Unidad'}</div>
-                    </td>
-                    <td class="py-4 px-2 text-center">
-                        <span class="font-mono font-medium text-text-primary">${item.quantity}</span>
-                        <span class="text-sm text-text-secondary ml-1">(${item.totalQuantity} uds)</span>
-                    </td>
-                    <td class="py-4 px-2 text-right font-mono text-text-primary">S/${item.price.toFixed(2)}</td>
-                    <td class="py-4 px-2 text-right font-mono font-bold text-primary">S/${lineTotal.toFixed(2)}</td>
-                </tr>
-            `;
-        }).join('');
-
-        tableBody.innerHTML = itemsHTML;
-    }
-
-    // Update Totals
-    function updateTotals() {
-        const subtotal = checkoutCart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-        const tax = subtotal * 0.18;
-        const total = subtotal + tax;
-
-        document.getElementById('checkoutSubtotal').textContent = `S/${subtotal.toFixed(2)}`;
-        document.getElementById('checkoutTax').textContent = `S/${tax.toFixed(2)}`;
-        document.getElementById('checkoutTotal').textContent = `S/${total.toFixed(2)}`;
-    }
-
-    // Validate Stock
-    function validateStock() {
-        const stockWarning = document.getElementById('stockWarning');
-        const stockWarningMessage = document.getElementById('stockWarningMessage');
-        let hasStockIssues = false;
-        let warningMessages = [];
-
-        checkoutCart.forEach(item => {
-            const product = products.find(p => p.id === item.productId);
-            if (product) {
-                if (item.totalQuantity > product.stock) {
-                    hasStockIssues = true;
-                    warningMessages.push(`${product.name}: Stock insuficiente (Disponible: ${product.stock}, Solicitado: ${item.totalQuantity})`);
-                } else if (product.stock - item.totalQuantity <= product.lowStockThreshold) {
-                    warningMessages.push(`${product.name}: Stock bajo después de la venta (Quedará: ${product.stock - item.totalQuantity})`);
+        // Load Checkout Cart
+        function loadCheckoutCart() {
+            const saved = localStorage.getItem('checkoutCart');
+            if (saved) {
+                checkoutCart = JSON.parse(saved);
+                
+                if (checkoutCart.length === 0) {
+                    showEmptyState();
+                } else {
+                    renderCheckout();
                 }
+            } else {
+                showEmptyState();
             }
-        });
+        }
 
-        if (warningMessages.length > 0) {
-            stockWarning.classList.remove('hidden');
-            stockWarningMessage.innerHTML = warningMessages.join('<br>');
+        // Show Empty State
+        function showEmptyState() {
+            document.getElementById('emptyCheckout').classList.remove('hidden');
+            document.getElementById('checkoutContent').classList.add('hidden');
+        }
+
+        // Render Checkout
+        function renderCheckout() {
+            document.getElementById('emptyCheckout').classList.add('hidden');
+            document.getElementById('checkoutContent').classList.remove('hidden');
             
-            if (hasStockIssues) {
-                document.getElementById('processPaymentBtn').disabled = true;
-                document.getElementById('processPaymentBtn').classList.add('opacity-50', 'cursor-not-allowed');
-            }
-        } else {
-            stockWarning.classList.add('hidden');
-        }
-    }
-
-    // Process Payment
-    function processPayment() {
-        // Validate stock again before processing
-        let canProcess = true;
-        checkoutCart.forEach(item => {
-            const product = products.find(p => p.id === item.productId);
-            if (product && item.totalQuantity > product.stock) {
-                canProcess = false;
-            }
-        });
-
-        if (!canProcess) {
-            showToast('No se puede procesar el pago debido a stock insuficiente', 'error');
-            return;
+            renderOrderItems();
+            updateTotals();
         }
 
-        // Get payment method
-        const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
-        
-        // Get customer information
-        const customerInfo = {
-            name: document.getElementById('customerName').value || 'Cliente General',
-            phone: document.getElementById('customerPhone').value || '',
-            email: document.getElementById('customerEmail').value || '',
-            notes: document.getElementById('orderNotes').value || ''
-        };
+        // Render Order Items
+        function renderOrderItems() {
+            const tableBody = document.getElementById('orderItemsTable');
+            
+            const itemsHTML = checkoutCart.map(item => {
+                const lineTotal = item.price * item.quantity;
+                return `
+                    <tr class="border-b border-border last:border-0">
+                        <td class="py-4 px-2">
+                            <div class="font-medium text-text-primary">${item.name}</div>
+                            <div class="text-sm text-text-secondary">${item.type === 'case' ? 'Caja (12 uds)' : 'Unidad'}</div>
+                        </td>
+                        <td class="py-4 px-2 text-center">
+                            <span class="font-mono font-medium text-text-primary">${item.quantity}</span>
+                            <span class="text-sm text-text-secondary ml-1">(${item.totalQuantity} uds)</span>
+                        </td>
+                        <td class="py-4 px-2 text-right font-mono text-text-primary">€${item.price.toFixed(2)}</td>
+                        <td class="py-4 px-2 text-right font-mono font-bold text-primary">€${lineTotal.toFixed(2)}</td>
+                    </tr>
+                `;
+            }).join('');
 
-        // Calculate totals
-        const subtotal = checkoutCart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-        const tax = subtotal * 0.18;
-        const total = subtotal + tax;
+            tableBody.innerHTML = itemsHTML;
+        }
 
-        // Create transaction
-        currentTransaction = {
-            id: Date.now(),
-            date: new Date().toISOString(),
-            items: checkoutCart,
-            customer: customerInfo,
-            paymentMethod: paymentMethod,
-            subtotal: subtotal,
-            tax: tax,
-            total: total,
-            status: 'completed'
-        };
+        // Update Totals
+        function updateTotals() {
+            const subtotal = checkoutCart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const tax = subtotal * 0.21;
+            const total = subtotal + tax;
 
-        // Update inventory
-        updateInventory();
+            document.getElementById('checkoutSubtotal').textContent = `€${subtotal.toFixed(2)}`;
+            document.getElementById('checkoutTax').textContent = `€${tax.toFixed(2)}`;
+            document.getElementById('checkoutTotal').textContent = `€${total.toFixed(2)}`;
+        }
 
-        // Save transaction to history
-        saveTransaction();
+        // Validate Stock
+        function validateStock() {
+            const stockWarning = document.getElementById('stockWarning');
+            const stockWarningMessage = document.getElementById('stockWarningMessage');
+            let hasStockIssues = false;
+            let warningMessages = [];
 
-        // Clear cart
-        localStorage.removeItem('checkoutCart');
-        localStorage.removeItem('beerStoreCart');
-
-        // Show receipt
-        generateReceipt();
-        showReceiptModal();
-
-        showToast('Pago procesado exitosamente', 'success');
-    }
-
-    // Update Inventory
-    function updateInventory() {
-        checkoutCart.forEach(item => {
-            const product = products.find(p => p.id === item.productId);
-            if (product) {
-                product.stock -= item.totalQuantity;
-            }
-        });
-        
-        // Save updated inventory to localStorage
-        localStorage.setItem('beerStoreInventory', JSON.stringify(products));
-    }
-
-    // Save Transaction
-    function saveTransaction() {
-        let transactions = JSON.parse(localStorage.getItem('beerStoreTransactions') || '[]');
-        transactions.unshift(currentTransaction);
-        localStorage.setItem('beerStoreTransactions', JSON.stringify(transactions));
-    }
-
-    // Generate Receipt
-    function generateReceipt() {
-        const receiptContent = document.getElementById('receiptContent');
-        const transaction = currentTransaction;
-        const date = new Date(transaction.date);
-        
-        const paymentMethodLabels = {
-            cash: 'Efectivo',
-            card: 'Tarjeta',
-            transfer: 'Transferencia'
-        };
-
-        receiptContent.innerHTML = `
-            <div class="text-center mb-6">
-                <svg class="w-16 h-16 mx-auto mb-3" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect width="48" height="48" rx="8" fill="#1B5E20"/>
-                    <path d="M24 12C20 12 18 14 18 18V30C18 34 20 36 24 36C28 36 30 34 30 30V18C30 14 28 12 24 12Z" fill="#FFA000"/>
-                    <ellipse cx="24" cy="18" rx="6" ry="2" fill="#FFD54F"/>
-                    <path d="M18 22H30" stroke="#FFD54F" stroke-width="1.5" stroke-linecap="round"/>
-                    <path d="M18 26H30" stroke="#FFD54F" stroke-width="1.5" stroke-linecap="round"/>
-                </svg>
-                <h2 class="text-2xl font-heading font-bold text-primary">Beer Store System</h2>
-                <p class="text-sm text-text-secondary">Boleta de Venta</p>
-            </div>
-
-            <div class="border-t border-b border-border py-4 mb-4">
-                <div class="grid grid-cols-2 gap-4 text-sm">
-                    <div>
-                        <p class="text-text-secondary">Nº Transacción:</p>
-                        <p class="font-mono font-medium text-text-primary">#${transaction.id}</p>
-                    </div>
-                    <div class="text-right">
-                        <p class="text-text-secondary">Fecha:</p>
-                        <p class="font-medium text-text-primary">${date.toLocaleDateString('es-PE')}</p>
-                        <p class="text-xs text-text-secondary">${date.toLocaleTimeString('es-PE')}</p>
-                    </div>
-                </div>
-            </div>
-
-            ${transaction.customer.name !== 'Cliente General' ? `
-                <div class="mb-4 pb-4 border-b border-border">
-                    <h3 class="font-heading font-semibold text-primary mb-2">Información del Cliente</h3>
-                    <div class="text-sm space-y-1">
-                        <p><span class="text-text-secondary">Nombre:</span> <span class="font-medium">${transaction.customer.name}</span></p>
-                        ${transaction.customer.phone ? `<p><span class="text-text-secondary">Teléfono:</span> <span class="font-medium">${transaction.customer.phone}</span></p>` : ''}
-                        ${transaction.customer.email ? `<p><span class="text-text-secondary">Email:</span> <span class="font-medium">${transaction.customer.email}</span></p>` : ''}
-                    </div>
-                </div>
-            ` : ''}
-
-            <div class="mb-4">
-                <h3 class="font-heading font-semibold text-primary mb-3">Productos</h3>
-                <table class="w-full text-sm">
-                    <thead>
-                        <tr class="border-b border-border">
-                            <th class="text-left py-2">Producto</th>
-                            <th class="text-center py-2">Cant.</th>
-                            <th class="text-right py-2">Precio</th>
-                            <th class="text-right py-2">Total</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${transaction.items.map(item => `
-                            <tr class="border-b border-border">
-                                <td class="py-2">
-                                    <div>${item.name}</div>
-                                    <div class="text-xs text-text-secondary">${item.type === 'case' ? 'Caja (12 uds)' : 'Unidad'}</div>
-                                </td>
-                                <td class="text-center py-2 font-mono">${item.quantity}</td>
-                                <td class="text-right py-2 font-mono">S/${item.price.toFixed(2)}</td>
-                                <td class="text-right py-2 font-mono font-medium">S/${(item.price * item.quantity).toFixed(2)}</td>
-                            </tr>
-                        `).join('')}
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="border-t border-border pt-4 space-y-2">
-                <div class="flex justify-between text-sm">
-                    <span class="text-text-secondary">Subtotal:</span>
-                    <span class="font-mono font-medium">S/${transaction.subtotal.toFixed(2)}</span>
-                </div>
-                <div class="flex justify-between text-sm">
-                    <span class="text-text-secondary">IGV (18%):</span>
-                    <span class="font-mono font-medium">S/${transaction.tax.toFixed(2)}</span>
-                </div>
-                <div class="flex justify-between text-lg font-heading font-bold border-t border-border pt-2">
-                    <span class="text-primary">Total:</span>
-                    <span class="text-primary">S/${transaction.total.toFixed(2)}</span>
-                </div>
-            </div>
-
-            <div class="mt-4 pt-4 border-t border-border text-sm">
-                <div class="flex justify-between mb-2">
-                    <span class="text-text-secondary">Método de Pago:</span>
-                    <span class="font-medium">${paymentMethodLabels[transaction.paymentMethod]}</span>
-                </div>
-                ${transaction.customer.notes ? `
-                    <div class="mt-3">
-                        <p class="text-text-secondary mb-1">Notas:</p>
-                        <p class="text-text-primary">${transaction.customer.notes}</p>
-                    </div>
-                ` : ''}
-            </div>
-
-            <div class="mt-6 pt-4 border-t border-border text-center text-xs text-text-secondary">
-                <p>¡Gracias por su compra!</p>
-                <p class="mt-1">Beer Store System - © ${new Date().getFullYear()}</p>
-            </div>
-        `;
-    }
-
-    // Show Receipt Modal
-    function showReceiptModal() {
-        document.getElementById('receiptModal').classList.remove('hidden');
-    }
-
-    // Close Receipt Modal
-    function closeReceiptModal() {
-        document.getElementById('receiptModal').classList.add('hidden');
-    }
-
-    // Download Receipt (Changed from Print)
-    function downloadReceipt() {
-        const receiptContent = document.getElementById('receiptContent').innerHTML;
-        
-        // Create a temporary element for download
-        const printWindow = window.open('', '_blank');
-        printWindow.document.write(`
-            <!DOCTYPE html>
-            <html>
-            <head>
-                <meta charset="utf-8">
-                <title>Boleta de Venta - #${currentTransaction.id}</title>
-                <link rel="stylesheet" href="../css/main.css">
-                <style>
-                    @media print {
-                        body { margin: 0; padding: 20px; }
-                        @page { margin: 0; }
+            checkoutCart.forEach(item => {
+                const product = products.find(p => p.id === item.productId);
+                if (product) {
+                    if (item.totalQuantity > product.stock) {
+                        hasStockIssues = true;
+                        warningMessages.push(`${product.name}: Stock insuficiente (Disponible: ${product.stock}, Solicitado: ${item.totalQuantity})`);
+                    } else if (product.stock - item.totalQuantity <= product.lowStockThreshold) {
+                        warningMessages.push(`${product.name}: Stock bajo después de la venta (Quedará: ${product.stock - item.totalQuantity})`);
                     }
-                </style>
-            </head>
-            <body>
-                ${receiptContent}
-                <script>
-                    window.onload = function() {
-                        window.print();
-                        window.onafterprint = function() {
-                            window.close();
-                        }
-                    };
-                <\/script>
-                <script id="dhws-dataInjector" src="../public/dhws-data-injector.js"><\/script>
-            </body>
-            </html>
-        `);
-        printWindow.document.close();
-    }
+                }
+            });
 
-    // Start New Sale
-    function startNewSale() {
-        closeReceiptModal();
-        window.location.href = 'product_catalog.html';
-    }
+            if (warningMessages.length > 0) {
+                stockWarning.classList.remove('hidden');
+                stockWarningMessage.innerHTML = warningMessages.join('<br>');
+                
+                if (hasStockIssues) {
+                    document.getElementById('processPaymentBtn').disabled = true;
+                    document.getElementById('processPaymentBtn').classList.add('opacity-50', 'cursor-not-allowed');
+                }
+            } else {
+                stockWarning.classList.add('hidden');
+            }
+        }
 
-    // Void Transaction
-    function voidTransaction() {
-        if (confirm('¿Estás seguro de que quieres anular esta transacción? Se perderán todos los datos del pedido actual.')) {
+        // Process Payment
+        function processPayment() {
+            // Validate stock again before processing
+            let canProcess = true;
+            checkoutCart.forEach(item => {
+                const product = products.find(p => p.id === item.productId);
+                if (product && item.totalQuantity > product.stock) {
+                    canProcess = false;
+                }
+            });
+
+            if (!canProcess) {
+                showToast('No se puede procesar el pago debido a stock insuficiente', 'error');
+                return;
+            }
+
+            // Get payment method
+            const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+            
+            // Get customer information
+            const customerInfo = {
+                name: document.getElementById('customerName').value || 'Cliente General',
+                phone: document.getElementById('customerPhone').value || '',
+                email: document.getElementById('customerEmail').value || '',
+                notes: document.getElementById('orderNotes').value || ''
+            };
+
+            // Calculate totals
+            const subtotal = checkoutCart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const tax = subtotal * 0.21;
+            const total = subtotal + tax;
+
+            // Create transaction
+            currentTransaction = {
+                id: Date.now(),
+                date: new Date().toISOString(),
+                items: checkoutCart,
+                customer: customerInfo,
+                paymentMethod: paymentMethod,
+                subtotal: subtotal,
+                tax: tax,
+                total: total,
+                status: 'completed'
+            };
+
+            // Update inventory
+            updateInventory();
+
+            // Save transaction to history
+            saveTransaction();
+
+            // Clear cart
             localStorage.removeItem('checkoutCart');
             localStorage.removeItem('beerStoreCart');
-            showToast('Transacción anulada', 'info');
-            setTimeout(() => {
-                window.location.href = 'product_catalog.html';
-            }, 1500);
+
+            // Show receipt
+            generateReceipt();
+            showReceiptModal();
+
+            showToast('Pago procesado exitosamente', 'success');
         }
-    }
 
-    // Toast Notification
-    function showToast(message, type = 'success') {
-        const toast = document.getElementById('toast');
-        const toastMessage = document.getElementById('toastMessage');
-        const toastIcon = document.getElementById('toastIcon');
+        // Update Inventory
+        function updateInventory() {
+            checkoutCart.forEach(item => {
+                const product = products.find(p => p.id === item.productId);
+                if (product) {
+                    product.stock -= item.totalQuantity;
+                }
+            });
+            
+            // Save updated inventory to localStorage
+            localStorage.setItem('beerStoreInventory', JSON.stringify(products));
+        }
 
-        const icons = {
-            success: '<svg class="w-6 h-6 text-success" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>',
-            error: '<svg class="w-6 h-6 text-error" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>',
-            info: '<svg class="w-6 h-6 text-info" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>'
-        };
+        // Save Transaction
+        function saveTransaction() {
+            let transactions = JSON.parse(localStorage.getItem('beerStoreTransactions') || '[]');
+            transactions.unshift(currentTransaction);
+            localStorage.setItem('beerStoreTransactions', JSON.stringify(transactions));
+        }
 
-        toastIcon.innerHTML = icons[type] || icons.success;
-        toastMessage.textContent = message;
-        
-        toast.classList.remove('hidden');
-        
-        setTimeout(() => {
-            toast.classList.add('hidden');
-        }, 3000);
-    }
+        // Generate Receipt
+        function generateReceipt() {
+            const receiptContent = document.getElementById('receiptContent');
+            const transaction = currentTransaction;
+            const date = new Date(transaction.date);
+            
+            const paymentMethodLabels = {
+                cash: 'Efectivo',
+                card: 'Tarjeta',
+                transfer: 'Transferencia'
+            };
+
+            receiptContent.innerHTML = `
+                <div class="text-center mb-6">
+                    <svg class="w-16 h-16 mx-auto mb-3" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="48" height="48" rx="8" fill="#1B5E20"/>
+                        <path d="M24 12C20 12 18 14 18 18V30C18 34 20 36 24 36C28 36 30 34 30 30V18C30 14 28 12 24 12Z" fill="#FFA000"/>
+                        <ellipse cx="24" cy="18" rx="6" ry="2" fill="#FFD54F"/>
+                        <path d="M18 22H30" stroke="#FFD54F" stroke-width="1.5" stroke-linecap="round"/>
+                        <path d="M18 26H30" stroke="#FFD54F" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                    <h2 class="text-2xl font-heading font-bold text-primary">Beer Store System</h2>
+                    <p class="text-sm text-text-secondary">Recibo de Venta</p>
+                </div>
+
+                <div class="border-t border-b border-border py-4 mb-4">
+                    <div class="grid grid-cols-2 gap-4 text-sm">
+                        <div>
+                            <p class="text-text-secondary">Nº Transacción:</p>
+                            <p class="font-mono font-medium text-text-primary">#${transaction.id}</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-text-secondary">Fecha:</p>
+                            <p class="font-medium text-text-primary">${date.toLocaleDateString('es-ES')}</p>
+                            <p class="text-xs text-text-secondary">${date.toLocaleTimeString('es-ES')}</p>
+                        </div>
+                    </div>
+                </div>
+
+                ${transaction.customer.name !== 'Cliente General' ? `
+                    <div class="mb-4 pb-4 border-b border-border">
+                        <h3 class="font-heading font-semibold text-primary mb-2">Información del Cliente</h3>
+                        <div class="text-sm space-y-1">
+                            <p><span class="text-text-secondary">Nombre:</span> <span class="font-medium">${transaction.customer.name}</span></p>
+                            ${transaction.customer.phone ? `<p><span class="text-text-secondary">Teléfono:</span> <span class="font-medium">${transaction.customer.phone}</span></p>` : ''}
+                            ${transaction.customer.email ? `<p><span class="text-text-secondary">Email:</span> <span class="font-medium">${transaction.customer.email}</span></p>` : ''}
+                        </div>
+                    </div>
+                ` : ''}
+
+                <div class="mb-4">
+                    <h3 class="font-heading font-semibold text-primary mb-3">Productos</h3>
+                    <table class="w-full text-sm">
+                        <thead>
+                            <tr class="border-b border-border">
+                                <th class="text-left py-2">Producto</th>
+                                <th class="text-center py-2">Cant.</th>
+                                <th class="text-right py-2">Precio</th>
+                                <th class="text-right py-2">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${transaction.items.map(item => `
+                                <tr class="border-b border-border">
+                                    <td class="py-2">
+                                        <div>${item.name}</div>
+                                        <div class="text-xs text-text-secondary">${item.type === 'case' ? 'Caja (12 uds)' : 'Unidad'}</div>
+                                    </td>
+                                    <td class="text-center py-2 font-mono">${item.quantity}</td>
+                                    <td class="text-right py-2 font-mono">€${item.price.toFixed(2)}</td>
+                                    <td class="text-right py-2 font-mono font-medium">€${(item.price * item.quantity).toFixed(2)}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="border-t border-border pt-4 space-y-2">
+                    <div class="flex justify-between text-sm">
+                        <span class="text-text-secondary">Subtotal:</span>
+                        <span class="font-mono font-medium">€${transaction.subtotal.toFixed(2)}</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                        <span class="text-text-secondary">IVA (21%):</span>
+                        <span class="font-mono font-medium">€${transaction.tax.toFixed(2)}</span>
+                    </div>
+                    <div class="flex justify-between text-lg font-heading font-bold border-t border-border pt-2">
+                        <span class="text-primary">Total:</span>
+                        <span class="text-primary">€${transaction.total.toFixed(2)}</span>
+                    </div>
+                </div>
+
+                <div class="mt-4 pt-4 border-t border-border text-sm">
+                    <div class="flex justify-between mb-2">
+                        <span class="text-text-secondary">Método de Pago:</span>
+                        <span class="font-medium">${paymentMethodLabels[transaction.paymentMethod]}</span>
+                    </div>
+                    ${transaction.customer.notes ? `
+                        <div class="mt-3">
+                            <p class="text-text-secondary mb-1">Notas:</p>
+                            <p class="text-text-primary">${transaction.customer.notes}</p>
+                        </div>
+                    ` : ''}
+                </div>
+
+                <div class="mt-6 pt-4 border-t border-border text-center text-xs text-text-secondary">
+                    <p>¡Gracias por su compra!</p>
+                    <p class="mt-1">Beer Store System - © 2025</p>
+                </div>
+            `;
+        }
+
+        // Show Receipt Modal
+        function showReceiptModal() {
+            document.getElementById('receiptModal').classList.remove('hidden');
+        }
+
+        // Close Receipt Modal
+        function closeReceiptModal() {
+            document.getElementById('receiptModal').classList.add('hidden');
+        }
+
+        // Print Receipt
+        function printReceipt() {
+            const receiptContent = document.getElementById('receiptContent').innerHTML;
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(`
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>Recibo de Venta - #${currentTransaction.id}</title>
+                    <link rel="stylesheet" href="../css/main.css">
+                    <style>
+                        @media print {
+                            body { margin: 0; padding: 20px; }
+                            @page { margin: 0; }
+                        }
+                    </style>
+                </head>
+                <body>
+                    ${receiptContent}
+                    <script>
+                        window.onload = function() {
+                            window.print();
+                            window.onafterprint = function() {
+                                window.close();
+                            }
+                        }
+                    <\/script>
+                    <script id="dhws-dataInjector" src="../public/dhws-data-injector.js"><\/script>
+                </body>
+                </html>
+            `);
+            printWindow.document.close();
+        }
+
+        // Start New Sale
+        function startNewSale() {
+            closeReceiptModal();
+            window.location.href = 'product_catalog.html';
+        }
+
+        // Void Transaction
+        function voidTransaction() {
+            if (confirm('¿Estás seguro de que quieres anular esta transacción? Se perderán todos los datos del pedido actual.')) {
+                localStorage.removeItem('checkoutCart');
+                localStorage.removeItem('beerStoreCart');
+                showToast('Transacción anulada', 'info');
+                setTimeout(() => {
+                    window.location.href = 'product_catalog.html';
+                }, 1500);
+            }
+        }
+
+        // Toast Notification
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+            const toastIcon = document.getElementById('toastIcon');
+
+            const icons = {
+                success: '<svg class="w-6 h-6 text-success" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>',
+                error: '<svg class="w-6 h-6 text-error" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>',
+                info: '<svg class="w-6 h-6 text-info" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>'
+            };
+
+            toastIcon.innerHTML = icons[type] || icons.success;
+            toastMessage.textContent = message;
+            
+            toast.classList.remove('hidden');
+            
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 3000);
+        }
 </script>
+</body>
+                </html>
+            `);
+            printWindow.document.close();
+        }
+
+        // Start New Sale
+        function startNewSale() {
+            closeReceiptModal();
+            window.location.href = 'product_catalog.html';
+        }
+
+        // Void Transaction
+        function voidTransaction() {
+            if (confirm('¿Estás seguro de que quieres anular esta transacción? Se perderán todos los datos del pedido actual.')) {
+                localStorage.removeItem('checkoutCart');
+                localStorage.removeItem('beerStoreCart');
+                showToast('Transacción anulada', 'info');
+                setTimeout(() => {
+                    window.location.href = 'product_catalog.html';
+                }, 1500);
+            }
+        }
+
+        // Toast Notification
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+            const toastIcon = document.getElementById('toastIcon');
+
+            const icons = {
+                success: '<svg class="w-6 h-6 text-success" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>',
+                error: '<svg class="w-6 h-6 text-error" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>',
+                info: '<svg class="w-6 h-6 text-info" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>'
+            };
+
+            toastIcon.innerHTML = icons[type] || icons.success;
+            toastMessage.textContent = message;
+            
+            toast.classList.remove('hidden');
+            
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 3000);
+        }
+    </script>
 </body>
 </html>

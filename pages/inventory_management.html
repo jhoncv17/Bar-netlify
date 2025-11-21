@@ -162,7 +162,7 @@
                     </div>
                     <span class="badge badge-success">Valorado</span>
                 </div>
-                <h3 class="text-2xl font-heading font-bold text-success mb-1" id="totalValue">S/ 1.234,50</h3>
+                <h3 class="text-2xl font-heading font-bold text-success mb-1" id="totalValue">€1.234,50</h3>
                 <p class="text-sm text-text-secondary">Valor Total Stock</p>
             </div>
         </div>
@@ -297,7 +297,7 @@
                     <input type="text" id="supplierInput" class="input" placeholder="Nombre del proveedor">
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-text-primary mb-2">Costo Unitario (S/ )</label>
+                    <label class="block text-sm font-medium text-text-primary mb-2">Costo Unitario (€)</label>
                     <input type="number" id="costInput" class="input" step="0.01" min="0" placeholder="Ej: 1.50">
                 </div>
                 <div>
@@ -698,7 +698,7 @@
             document.getElementById('totalProducts').textContent = totalProducts;
             document.getElementById('lowStockCount').textContent = lowStockCount;
             document.getElementById('outOfStockCount').textContent = outOfStockCount;
-            document.getElementById('totalValue').textContent = `S/ ${totalValue.toFixed(2).replace('.', ',')}`;
+            document.getElementById('totalValue').textContent = `€${totalValue.toFixed(2).replace('.', ',')}`;
         }
 
         // Render Movement History

@@ -1032,10 +1032,6 @@ html {
 
 /* Loading States */
 
-.collapse{
-  visibility: collapse;
-}
-
 .static{
   position: static;
 }
@@ -1351,10 +1347,6 @@ html {
 
 .flex-shrink-0{
   flex-shrink: 0;
-}
-
-.border-collapse{
-  border-collapse: collapse;
 }
 
 .-translate-y-1\/2{

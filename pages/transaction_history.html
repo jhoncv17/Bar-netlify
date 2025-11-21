@@ -96,7 +96,7 @@
                     </div>
                     <span class="text-xs text-text-secondary">Hoy</span>
                 </div>
-                <div class="font-heading font-bold text-2xl text-primary mb-1" id="todaySales">S/ 0,00</div>
+                <div class="font-heading font-bold text-2xl text-primary mb-1" id="todaySales">€0,00</div>
                 <div class="text-sm text-text-secondary">Ventas del Día</div>
             </div>
 
@@ -125,7 +125,7 @@
                     </div>
                     <span class="text-xs text-text-secondary">Promedio</span>
                 </div>
-                <div class="font-heading font-bold text-2xl text-primary mb-1" id="avgTransaction">S/ 0,00</div>
+                <div class="font-heading font-bold text-2xl text-primary mb-1" id="avgTransaction">€0,00</div>
                 <div class="text-sm text-text-secondary">Ticket Promedio</div>
             </div>
 
@@ -186,11 +186,11 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                 <div>
                     <label class="block text-sm font-medium text-text-primary mb-2">Monto Mínimo</label>
-                    <input type="number" id="minAmount" placeholder="S/ 0,00" class="input" step="0.01">
+                    <input type="number" id="minAmount" placeholder="€0,00" class="input" step="0.01">
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-text-primary mb-2">Monto Máximo</label>
-                    <input type="number" id="maxAmount" placeholder="S/ 999,99" class="input" step="0.01">
+                    <input type="number" id="maxAmount" placeholder="€999,99" class="input" step="0.01">
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-text-primary mb-2">Buscar Producto</label>
@@ -475,14 +475,14 @@
             
             // Today's sales
             const todaySales = todayTransactions.reduce((sum, t) => sum + t.total, 0);
-            document.getElementById('todaySales').textContent = `S/ ${todaySales.toFixed(2)}`;
+            document.getElementById('todaySales').textContent = `€${todaySales.toFixed(2)}`;
 
             // Total transactions
             document.getElementById('totalTransactions').textContent = mockTransactions.length;
 
             // Average transaction
             const avgTransaction = mockTransactions.reduce((sum, t) => sum + t.total, 0) / mockTransactions.length;
-            document.getElementById('avgTransaction').textContent = `S/ ${avgTransaction.toFixed(2)}`;
+            document.getElementById('avgTransaction').textContent = `€${avgTransaction.toFixed(2)}`;
 
             // Repeat customers
             const customers = mockTransactions.map(t => t.customer);
@@ -618,7 +618,7 @@
                             <span class="badge badge-info">${paymentMethodText}</span>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="font-heading font-bold text-primary">S/ ${transaction.total.toFixed(2)}</div>
+                            <div class="font-heading font-bold text-primary">€${transaction.total.toFixed(2)}</div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm">
                             <button onclick="viewTransactionDetail('${transaction.id}')" class="btn-ghost p-2 rounded-base" title="Ver detalles">
@@ -627,7 +627,7 @@
                                     <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/>
                                 </svg>
                             </button>
-                            <button onclick="downloadReceipt('${transaction.id}')" class="btn-ghost p-2 rounded-base" title="Descargar boleta">
+                            <button onclick="printReceipt('${transaction.id}')" class="btn-ghost p-2 rounded-base" title="Imprimir recibo">
                                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M5 4v3H4a2 2 0 00-2 2v3a2 2 0 002 2h1v2a2 2 0 002 2h6a2 2 0 002-2v-2h1a2 2 0 002-2V9a2 2 0 00-2-2h-1V4a2 2 0 00-2-2H7a2 2 0 00-2 2zm8 0H7v3h6V4zm0 8H7v4h6v-4z" clip-rule="evenodd"/>
                                 </svg>
@@ -662,7 +662,7 @@
                             <div class="text-xs text-text-secondary">${transaction.items.length} producto(s) • ${transaction.items.reduce((sum, item) => sum + item.quantity, 0)} unidades</div>
                         </div>
                         <div class="flex items-center justify-between pt-3 border-t border-border">
-                            <div class="font-heading font-bold text-xl text-primary">S/ ${transaction.total.toFixed(2)}</div>
+                            <div class="font-heading font-bold text-xl text-primary">€${transaction.total.toFixed(2)}</div>
                             <div class="flex gap-2">
                                 <button onclick="viewTransactionDetail('${transaction.id}')" class="btn-ghost p-2 rounded-base">
                                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -670,7 +670,7 @@
                                         <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/>
                                     </svg>
                                 </button>
-                                <button onclick="downloadReceipt('${transaction.id}')" class="btn-ghost p-2 rounded-base">
+                                <button onclick="printReceipt('${transaction.id}')" class="btn-ghost p-2 rounded-base">
                                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                                         <path fill-rule="evenodd" d="M5 4v3H4a2 2 0 00-2 2v3a2 2 0 002 2h1v2a2 2 0 002 2h6a2 2 0 002-2v-2h1a2 2 0 002-2V9a2 2 0 00-2-2h-1V4a2 2 0 00-2-2H7a2 2 0 00-2 2zm8 0H7v3h6V4zm0 8H7v4h6v-4z" clip-rule="evenodd"/>
                                     </svg>
@@ -734,8 +734,8 @@
                                         <tr>
                                             <td class="px-4 py-3 text-sm text-text-primary">${item.name}</td>
                                             <td class="px-4 py-3 text-sm text-text-primary text-right">${item.quantity}</td>
-                                            <td class="px-4 py-3 text-sm text-text-primary text-right">S/ ${item.unitPrice.toFixed(2)}</td>
-                                            <td class="px-4 py-3 text-sm font-medium text-primary text-right">S/ ${item.total.toFixed(2)}</td>
+                                            <td class="px-4 py-3 text-sm text-text-primary text-right">€${item.unitPrice.toFixed(2)}</td>
+                                            <td class="px-4 py-3 text-sm font-medium text-primary text-right">€${item.total.toFixed(2)}</td>
                                         </tr>
                                     `).join('')}
                                 </tbody>
@@ -747,16 +747,16 @@
                     <div class="bg-gray-50 rounded-base p-4 space-y-2">
                         <div class="flex justify-between text-sm">
                             <span class="text-text-secondary">Subtotal</span>
-                            <span class="font-medium text-text-primary">S/ ${transaction.subtotal.toFixed(2)}</span>
+                            <span class="font-medium text-text-primary">€${transaction.subtotal.toFixed(2)}</span>
                         </div>
                         <div class="flex justify-between text-sm">
-                            <span class="text-text-secondary">IGV (18%)</span>
-                            <span class="font-medium text-text-primary">S/ ${transaction.tax.toFixed(2)}</span>
+                            <span class="text-text-secondary">IVA (21%)</span>
+                            <span class="font-medium text-text-primary">€${transaction.tax.toFixed(2)}</span>
                         </div>
                         <div class="h-px bg-border"></div>
                         <div class="flex justify-between">
                             <span class="font-heading font-bold text-primary">Total</span>
-                            <span class="font-heading font-bold text-primary text-xl">S/ ${transaction.total.toFixed(2)}</span>
+                            <span class="font-heading font-bold text-primary text-xl">€${transaction.total.toFixed(2)}</span>
                         </div>
                     </div>
 
@@ -769,11 +769,11 @@
 
                     <!-- Actions -->
                     <div class="flex gap-2 pt-4 border-t border-border">
-                        <button onclick="downloadReceipt('${transaction.id}')" class="btn-primary flex-1 py-2">
+                        <button onclick="printReceipt('${transaction.id}')" class="btn-primary flex-1 py-2">
                             <svg class="w-5 h-5 inline-block mr-2" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M5 4v3H4a2 2 0 00-2 2v3a2 2 0 002 2h1v2a2 2 0 002 2h6a2 2 0 002-2v-2h1a2 2 0 002-2V9a2 2 0 00-2-2h-1V4a2 2 0 00-2-2H7a2 2 0 00-2 2zm8 0H7v3h6V4zm0 8H7v4h6v-4z" clip-rule="evenodd"/>
                             </svg>
-                            Descargar Boleta
+                            Imprimir Recibo
                         </button>
                         <button onclick="closeDetailModal()" class="btn-outline flex-1 py-2">Cerrar</button>
                     </div>
@@ -788,92 +788,13 @@
             document.getElementById('detailModal').classList.add('hidden');
         }
 
-        // Download Receipt as HTML
-        function downloadReceipt(transactionId) {
+        // Print Receipt
+        function printReceipt(transactionId) {
             const transaction = mockTransactions.find(t => t.id === transactionId);
             if (!transaction) return;
 
-            const paymentMethodLabels = {
-                'cash': 'Efectivo',
-                'card': 'Tarjeta',
-                'transfer': 'Transferencia'
-            };
-
-            const receiptHTML = `
-                <!DOCTYPE html>
-                <html>
-                <head>
-                    <meta charset="UTF-8">
-                    <title>Boleta de Venta - ${transaction.id}</title>
-                    <link rel="stylesheet" href="../css/main.css">
-                    <style>
-                        body { margin: 20px; padding: 20px; background: white; font-family: Arial, sans-serif; }
-                        .receipt-header { text-align: center; margin-bottom: 20px; }
-                        .receipt-details { margin-bottom: 20px; }
-                        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
-                        th, td { padding: 8px; text-align: left; border-bottom: 1px solid #ddd; }
-                        .total-section { margin-top: 20px; padding-top: 20px; border-top: 2px solid #333; }
-                        @media print { body { margin: 0; padding: 20px; } }
-                    </style>
-                </head>
-                <body>
-                    <div class="receipt-header">
-                        <h1>Adriana Store System</h1>
-                        <h2>Boleta de Venta</h2>
-                    </div>
-
-                    <div class="receipt-details">
-                        <p><strong>Nº Transacción:</strong> ${transaction.id}</p>
-                        <p><strong>Fecha:</strong> ${formatDate(transaction.date)} ${transaction.time}</p>
-                        <p><strong>Cliente:</strong> ${transaction.customer}</p>
-                        <p><strong>Método de Pago:</strong> ${paymentMethodLabels[transaction.paymentMethod]}</p>
-                    </div>
-
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Producto</th>
-                                <th>Cantidad</th>
-                                <th>Precio Unit.</th>
-                                <th>Total</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            ${transaction.items.map(item => `
-                                <tr>
-                                    <td>${item.name}</td>
-                                    <td>${item.quantity}</td>
-                                    <td>S/ ${item.unitPrice.toFixed(2)}</td>
-                                    <td>S/ ${item.total.toFixed(2)}</td>
-                                </tr>
-                            `).join('')}
-                        </tbody>
-                    </table>
-
-                    <div class="total-section">
-                        <p><strong>Subtotal:</strong> S/ ${transaction.subtotal.toFixed(2)}</p>
-                        <p><strong>IGV (18%):</strong> S/ ${transaction.tax.toFixed(2)}</p>
-                        <p style="font-size: 1.2em;"><strong>TOTAL:</strong> S/ ${transaction.total.toFixed(2)}</p>
-                    </div>
-
-                    ${transaction.notes ? `<p><strong>Notas:</strong> ${transaction.notes}</p>` : ''}
-
-                    <p style="text-align: center; margin-top: 30px; color: #666;">¡Gracias por su compra!</p>
-                </body>
-                </html>
-            `;
-
-            const blob = new Blob([receiptHTML], { type: 'text/html' });
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `Boleta_${transaction.id}_${new Date().toISOString().split('T')[0]}.html`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            window.URL.revokeObjectURL(url);
-
-            showToast('Boleta descargada correctamente', 'success');
+            showToast(`Imprimiendo recibo ${transactionId}...`, 'success');
+            // In a real application, this would trigger actual printing
         }
 
         // Export to CSV
