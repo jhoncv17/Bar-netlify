@@ -115,10 +115,10 @@
                             <label class="block text-sm font-medium text-text-primary mb-2">Rango de Precio</label>
                             <select id="priceFilter" class="input">
                                 <option value="all">Todos los Precios</option>
-                                <option value="0-5">€0 - €5</option>
-                                <option value="5-10">€5 - €10</option>
-                                <option value="10-20">€10 - €20</option>
-                                <option value="20+">€20+</option>
+                                <option value="0-5">S/ 0 - S/ 5</option>
+                                <option value="5-10">S/ 5 - S/ 10</option>
+                                <option value="10-20">S/ 10 - S/ 20</option>
+                                <option value="20+">S/ 20+</option>
                             </select>
                         </div>
 
@@ -176,16 +176,16 @@
                         <div class="space-y-3 mb-4">
                             <div class="flex justify-between text-sm">
                                 <span class="text-text-secondary">Subtotal</span>
-                                <span id="subtotal" class="font-medium text-text-primary">€0,00</span>
+                                <span id="subtotal" class="font-medium text-text-primary">S/ 0,00</span>
                             </div>
                             <div class="flex justify-between text-sm">
-                                <span class="text-text-secondary">IVA (21%)</span>
-                                <span id="tax" class="font-medium text-text-primary">€0,00</span>
+                                <span class="text-text-secondary">IGV (18%)</span>
+                                <span id="tax" class="font-medium text-text-primary">S/ 0,00</span>
                             </div>
                             <div class="h-px bg-border"></div>
                             <div class="flex justify-between">
                                 <span class="font-heading font-bold text-primary">Total</span>
-                                <span id="total" class="font-heading font-bold text-primary text-xl">€0,00</span>
+                                <span id="total" class="font-heading font-bold text-primary text-xl">S/ 0,00</span>
                             </div>
                         </div>
                         <button id="checkoutBtn" class="btn-primary w-full py-3 text-base disabled:opacity-50 disabled:cursor-not-allowed" disabled>
@@ -229,7 +229,7 @@
                 <div class="space-y-2 mb-4">
                     <div class="flex justify-between text-sm">
                         <span class="text-text-secondary">Total</span>
-                        <span id="mobileTotal" class="font-heading font-bold text-primary text-lg">€0,00</span>
+                        <span id="mobileTotal" class="font-heading font-bold text-primary text-lg">S/ 0,00</span>
                     </div>
                 </div>
                 <button id="mobileCheckoutBtn" class="btn-primary w-full py-3" disabled>
@@ -425,11 +425,11 @@
                             <div>
                                 ${product.unitPrice ? `
                                     <div class="text-sm text-text-secondary">Unidad</div>
-                                    <div class="font-heading font-bold text-xl text-primary">€${product.unitPrice.toFixed(2)}</div>
+                                    <div class="font-heading font-bold text-xl text-primary">S/ ${product.unitPrice.toFixed(2)}</div>
                                 ` : ''}
                                 ${product.casePrice ? `
                                     <div class="text-sm text-text-secondary mt-1">Caja (12 uds)</div>
-                                    <div class="font-heading font-bold text-lg text-secondary">€${product.casePrice.toFixed(2)}</div>
+                                    <div class="font-heading font-bold text-lg text-secondary">S/ ${product.casePrice.toFixed(2)}</div>
                                 ` : ''}
                             </div>
                             <div class="text-right">
@@ -602,7 +602,7 @@
     function updateCartDisplay() {
         const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
         const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-        const tax = subtotal * 0.21;
+        const tax = subtotal * 0.18;
         const total = subtotal + tax;
 
         // Update counts
@@ -618,10 +618,10 @@
         const totalEl = document.getElementById('total');
         const mobileTotalEl = document.getElementById('mobileTotal');
 
-        if (subtotalEl) subtotalEl.textContent = `€${subtotal.toFixed(2)}`;
-        if (taxEl) taxEl.textContent = `€${tax.toFixed(2)}`;
-        if (totalEl) totalEl.textContent = `€${total.toFixed(2)}`;
-        if (mobileTotalEl) mobileTotalEl.textContent = `€${total.toFixed(2)}`;
+        if (subtotalEl) subtotalEl.textContent = `S/ ${subtotal.toFixed(2)}`;
+        if (taxEl) taxEl.textContent = `S/ ${tax.toFixed(2)}`;
+        if (totalEl) totalEl.textContent = `S/ ${total.toFixed(2)}`;
+        if (mobileTotalEl) mobileTotalEl.textContent = `S/ ${total.toFixed(2)}`;
 
         // Enable/disable checkout buttons
         const hasItems = cart.length > 0;
@@ -666,7 +666,7 @@
                 <div class="flex-1 min-w-0">
                     <h4 class="font-medium text-sm text-text-primary truncate">${item.name}</h4>
                     <p class="text-xs text-text-secondary">${item.type === 'case' ? 'Caja (12 uds)' : 'Unidad'}</p>
-                    <p class="font-bold text-primary mt-1">€${item.price.toFixed(2)}</p>
+                    <p class="font-bold text-primary mt-1">S/ ${item.price.toFixed(2)}</p>
                     <div class="flex items-center gap-2 mt-2">
                         <button onclick="updateCartQuantity(${index}, -1)" 
                                 class="btn-ghost p-1 rounded-base">

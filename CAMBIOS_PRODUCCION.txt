@@ -1,0 +1,59 @@
+SISTEMA DE GESTIÓN DE TIENDA - LISTO PARA PRODUCCIÓN
+=====================================================
+
+CAMBIOS REALIZADOS:
+
+1. MONEDA ACTUALIZADA
+   - Cambio de Euro (€) a Soles Peruanos (S/)
+   - Todos los precios ahora se muestran en S/
+   - Archivos actualizados: product_catalog.html, sales_checkout.html, transaction_history.html
+
+2. IMPUESTO ACTUALIZADO
+   - Cambio de IVA 21% (España) a IGV 18% (Perú)
+   - Cálculos de impuestos actualizados en todas las páginas
+   - Etiquetas cambiadas de "IVA (21%)" a "IGV (18%)"
+
+3. FUNCIÓN DE DESCARGA
+   - Botón "Imprimir Recibo" cambiado a "Descargar Boleta"
+   - Genera archivos HTML descargables en lugar de ventanas de impresión
+   - Formato optimizado para boletas de venta peruanas
+   - Nombre de archivo incluye ID de transacción y fecha
+
+4. TERMINOLOGÍA ACTUALIZADA
+   - "Recibo" cambiado a "Boleta" en todo el sistema
+   - Títulos de modales actualizados
+   - Mensajes de notificación actualizados
+
+5. INTEGRACIÓN SUPABASE PREPARADA
+   - Instalado @supabase/supabase-js
+   - Cliente de Supabase configurado en /js/supabase-client.js
+   - Variables de entorno configuradas en .env
+   - Funciones helper para IGV y formato de moneda
+
+6. DATOS INICIALES ACTUALIZADOS
+   - Precios de productos convertidos a soles peruanos
+   - Stock configurado para demo
+   - Productos: Pilsen y Heineken (botellas, latas, cajas)
+
+PRECIOS DE EJEMPLO (en Soles):
+- Pilsen Botella: S/ 8.50 (antes €2.50)
+- Pilsen Caja: S/ 95.00 (antes €28.00)
+- Heineken Botella: S/ 10.00 (antes €3.00)
+- Heineken Caja: S/ 115.00 (antes €34.00)
+
+ARCHIVOS CREADOS:
+- /js/supabase-client.js - Cliente y funciones helper de Supabase
+- /js/product-catalog.js - Módulo del catálogo (preparado para Supabase)
+
+PRÓXIMOS PASOS PARA PRODUCCIÓN COMPLETA:
+1. Aplicar migrations de Supabase (tablas products, transactions, transaction_items)
+2. Actualizar páginas HTML para usar js/supabase-client.js en lugar de datos mock
+3. Configurar autenticación de administrador (opcional)
+4. Configurar RLS policies en Supabase
+5. Poblar base de datos con productos reales
+
+NOTAS:
+- Sistema funciona actualmente con datos mock (demo)
+- Para conectar a Supabase, descomentar imports de supabase-client.js en HTML
+- IGV calculado correctamente al 18%
+- Moneda formateada como S/ en todo el sistema

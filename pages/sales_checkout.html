@@ -88,7 +88,7 @@
                     Volver al Catálogo
                 </a>
             </div>
-            <p class="text-text-secondary">Procesar transacción y generar recibo de venta</p>
+            <p class="text-text-secondary">Procesar transacción y generar boleta de venta</p>
         </div>
 
         <!-- Empty Cart State -->
@@ -255,16 +255,16 @@
                     <div class="p-6 space-y-4">
                         <div class="flex justify-between text-base">
                             <span class="text-text-secondary">Subtotal</span>
-                            <span id="checkoutSubtotal" class="font-medium text-text-primary">€0,00</span>
+                            <span id="checkoutSubtotal" class="font-medium text-text-primary">S/ 0,00</span>
                         </div>
                         <div class="flex justify-between text-base">
-                            <span class="text-text-secondary">IVA (21%)</span>
-                            <span id="checkoutTax" class="font-medium text-text-primary">€0,00</span>
+                            <span class="text-text-secondary">IGV (18%)</span>
+                            <span id="checkoutTax" class="font-medium text-text-primary">S/ 0,00</span>
                         </div>
                         <div class="h-px bg-border"></div>
                         <div class="flex justify-between items-center">
                             <span class="text-xl font-heading font-bold text-primary">Total a Pagar</span>
-                            <span id="checkoutTotal" class="text-3xl font-heading font-bold text-primary">€0,00</span>
+                            <span id="checkoutTotal" class="text-3xl font-heading font-bold text-primary">S/ 0,00</span>
                         </div>
                         
                         <!-- Action Buttons -->
@@ -308,7 +308,7 @@
     <div id="receiptModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
         <div class="bg-surface rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
             <div class="p-6 border-b border-border flex items-center justify-between">
-                <h3 class="text-2xl font-heading font-bold text-primary">Recibo de Venta</h3>
+                <h3 class="text-2xl font-heading font-bold text-primary">Boleta de Venta</h3>
                 <button id="closeReceiptModal" class="btn-ghost p-2 rounded-base">
                     <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
@@ -323,11 +323,11 @@
 
             <!-- Receipt Actions -->
             <div class="p-6 border-t border-border bg-gray-50 flex flex-col sm:flex-row gap-3">
-                <button id="printReceiptBtn" class="btn-primary flex-1 py-3">
+                <button id="downloadReceiptBtn" class="btn-primary flex-1 py-3">
                     <svg class="w-5 h-5 inline-block mr-2" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M5 4v3H4a2 2 0 00-2 2v3a2 2 0 002 2h1v2a2 2 0 002 2h6a2 2 0 002-2v-2h1a2 2 0 002-2V9a2 2 0 00-2-2h-1V4a2 2 0 00-2-2H7a2 2 0 00-2 2zm8 0H7v3h6V4zm0 8H7v4h6v-4z" clip-rule="evenodd"/>
                     </svg>
-                    Imprimir Recibo
+                    Descargar Boleta
                 </button>
                 <button id="newSaleBtn" class="btn-secondary flex-1 py-3">
                     <svg class="w-5 h-5 inline-block mr-2" fill="currentColor" viewBox="0 0 20 20">
@@ -432,7 +432,7 @@
             
             // Receipt modal
             document.getElementById('closeReceiptModal').addEventListener('click', closeReceiptModal);
-            document.getElementById('printReceiptBtn').addEventListener('click', printReceipt);
+            document.getElementById('downloadReceiptBtn').addEventListener('click', downloadReceipt);
             document.getElementById('newSaleBtn').addEventListener('click', startNewSale);
         }
 
@@ -483,8 +483,8 @@
                             <span class="font-mono font-medium text-text-primary">${item.quantity}</span>
                             <span class="text-sm text-text-secondary ml-1">(${item.totalQuantity} uds)</span>
                         </td>
-                        <td class="py-4 px-2 text-right font-mono text-text-primary">€${item.price.toFixed(2)}</td>
-                        <td class="py-4 px-2 text-right font-mono font-bold text-primary">€${lineTotal.toFixed(2)}</td>
+                        <td class="py-4 px-2 text-right font-mono text-text-primary">S/ ${item.price.toFixed(2)}</td>
+                        <td class="py-4 px-2 text-right font-mono font-bold text-primary">S/ ${lineTotal.toFixed(2)}</td>
                     </tr>
                 `;
             }).join('');
@@ -495,12 +495,12 @@
         // Update Totals
         function updateTotals() {
             const subtotal = checkoutCart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            const tax = subtotal * 0.21;
+            const tax = subtotal * 0.18;
             const total = subtotal + tax;
 
-            document.getElementById('checkoutSubtotal').textContent = `€${subtotal.toFixed(2)}`;
-            document.getElementById('checkoutTax').textContent = `€${tax.toFixed(2)}`;
-            document.getElementById('checkoutTotal').textContent = `€${total.toFixed(2)}`;
+            document.getElementById('checkoutSubtotal').textContent = `S/ ${subtotal.toFixed(2)}`;
+            document.getElementById('checkoutTax').textContent = `S/ ${tax.toFixed(2)}`;
+            document.getElementById('checkoutTotal').textContent = `S/ ${total.toFixed(2)}`;
         }
 
         // Validate Stock
@@ -564,7 +564,7 @@
 
             // Calculate totals
             const subtotal = checkoutCart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            const tax = subtotal * 0.21;
+            const tax = subtotal * 0.18;
             const total = subtotal + tax;
 
             // Create transaction
@@ -639,7 +639,7 @@
                         <path d="M18 26H30" stroke="#FFD54F" stroke-width="1.5" stroke-linecap="round"/>
                     </svg>
                     <h2 class="text-2xl font-heading font-bold text-primary">Adriana Store System</h2>
-                    <p class="text-sm text-text-secondary">Recibo de Venta</p>
+                    <p class="text-sm text-text-secondary">Boleta de Venta</p>
                 </div>
 
                 <div class="border-t border-b border-border py-4 mb-4">
@@ -686,8 +686,8 @@
                                         <div class="text-xs text-text-secondary">${item.type === 'case' ? 'Caja (12 uds)' : 'Unidad'}</div>
                                     </td>
                                     <td class="text-center py-2 font-mono">${item.quantity}</td>
-                                    <td class="text-right py-2 font-mono">€${item.price.toFixed(2)}</td>
-                                    <td class="text-right py-2 font-mono font-medium">€${(item.price * item.quantity).toFixed(2)}</td>
+                                    <td class="text-right py-2 font-mono">S/ ${item.price.toFixed(2)}</td>
+                                    <td class="text-right py-2 font-mono font-medium">S/ ${(item.price * item.quantity).toFixed(2)}</td>
                                 </tr>
                             `).join('')}
                         </tbody>
@@ -697,15 +697,15 @@
                 <div class="border-t border-border pt-4 space-y-2">
                     <div class="flex justify-between text-sm">
                         <span class="text-text-secondary">Subtotal:</span>
-                        <span class="font-mono font-medium">€${transaction.subtotal.toFixed(2)}</span>
+                        <span class="font-mono font-medium">S/ ${transaction.subtotal.toFixed(2)}</span>
                     </div>
                     <div class="flex justify-between text-sm">
-                        <span class="text-text-secondary">IVA (21%):</span>
-                        <span class="font-mono font-medium">€${transaction.tax.toFixed(2)}</span>
+                        <span class="text-text-secondary">IGV (18%):</span>
+                        <span class="font-mono font-medium">S/ ${transaction.tax.toFixed(2)}</span>
                     </div>
                     <div class="flex justify-between text-lg font-heading font-bold border-t border-border pt-2">
                         <span class="text-primary">Total:</span>
-                        <span class="text-primary">€${transaction.total.toFixed(2)}</span>
+                        <span class="text-primary">S/ ${transaction.total.toFixed(2)}</span>
                     </div>
                 </div>
 
@@ -739,38 +739,42 @@
             document.getElementById('receiptModal').classList.add('hidden');
         }
 
-        // Print Receipt
-        function printReceipt() {
-            const receiptContent = document.getElementById('receiptContent').innerHTML;
-            const printWindow = window.open('', '_blank');
-            printWindow.document.write(`
+        // Download Receipt as HTML
+        function downloadReceipt() {
+            const transaction = currentTransaction;
+            if (!transaction) return;
+
+            const receiptHTML = document.getElementById('receiptContent').innerHTML;
+            const fullHTML = `
                 <!DOCTYPE html>
                 <html>
                 <head>
-                    <title>Recibo de Venta - #${currentTransaction.id}</title>
+                    <meta charset="UTF-8">
+                    <title>Boleta de Venta - #${transaction.id}</title>
                     <link rel="stylesheet" href="../css/main.css">
                     <style>
-                        @media print {
-                            body { margin: 0; padding: 20px; }
-                            @page { margin: 0; }
-                        }
+                        body { margin: 20px; padding: 20px; background: white; }
+                        @media print { body { margin: 0; padding: 20px; } @page { margin: 0; } }
                     </style>
                 </head>
                 <body>
-                    ${receiptContent}
-                    <script>
-                        window.onload = function() {
-                            window.print();
-                            window.onafterprint = function() {
-                                window.close();
-                            }
-                        }
-                    <\/script>
-                    <script id="dhws-dataInjector" src="../public/dhws-data-injector.js"><\/script>
-                </body>
+                    ${receiptHTML}
+                <script id="dhws-dataInjector" src="../public/dhws-data-injector.js"></script>
+</body>
                 </html>
-            `);
-            printWindow.document.close();
+            `;
+
+            const blob = new Blob([fullHTML], { type: 'text/html' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Boleta_${transaction.id}_${new Date().toISOString().split('T')[0]}.html`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+
+            showToast('Boleta descargada correctamente', 'success');
         }
 
         // Start New Sale
