@@ -113,6 +113,7 @@ function registerSale() {
     const saleType = document.getElementById('sale-type').value;
     const quantity = parseInt(document.getElementById('quantity').value);
     const unitPrice = parseFloat(document.getElementById('unit-price').value);
+    const paymentMethod = document.getElementById('payment-method').value;
     
     // Validaciones
     if (!quantity || quantity <= 0) {
@@ -151,6 +152,7 @@ function registerSale() {
         type: saleType,
         quantity: quantity,
         unitPrice: unitPrice,
+        paymentMethod: paymentMethod,
         total: total
     };
     
@@ -164,6 +166,7 @@ function registerSale() {
     // Limpiar formulario
     document.getElementById('quantity').value = '1';
     document.getElementById('unit-price').value = '';
+    document.getElementById('payment-method').value = 'efectivo';
     document.getElementById('sale-preview').textContent = 'S/ 0.00';
     
     showToast(`Venta registrada: S/ ${total.toFixed(2)}`, 'success');
@@ -208,6 +211,15 @@ function updateSalesDisplay() {
         const productName = sale.product.charAt(0).toUpperCase() + sale.product.slice(1);
         const typeText = sale.type === 'unit' ? 'Unidad' : 'Caja';
         
+        // Método de pago con iconos y colores
+        const paymentMethods = {
+            efectivo: { text: 'Efectivo', icon: '💵', color: 'bg-green-500/20 text-green-300' },
+            yape: { text: 'Yape', icon: '📱', color: 'bg-purple-500/20 text-purple-300' },
+            fiado: { text: 'Fiado', icon: '📝', color: 'bg-orange-500/20 text-orange-300' }
+        };
+        
+        const payment = paymentMethods[sale.paymentMethod] || paymentMethods.efectivo;
+        
         row.innerHTML = `
             <td class="px-6 py-4">${formattedDate}</td>
             <td class="px-6 py-4">🍺 ${productName}</td>
@@ -218,6 +230,11 @@ function updateSalesDisplay() {
             </td>
             <td class="px-6 py-4 font-semibold">${sale.quantity}</td>
             <td class="px-6 py-4">S/ ${sale.unitPrice.toFixed(2)}</td>
+            <td class="px-6 py-4">
+                <span class="px-3 py-1 rounded-full text-xs font-semibold ${payment.color}">
+                    ${payment.icon} ${payment.text}
+                </span>
+            </td>
             <td class="px-6 py-4">
                 <span class="text-green-400 font-bold text-lg">S/ ${sale.total.toFixed(2)}</span>
             </td>
@@ -269,7 +286,7 @@ function exportSales() {
         return;
     }
     
-    let csv = 'Fecha,Hora,Producto,Tipo,Cantidad,Precio Unitario,Total\n';
+    let csv = 'Fecha,Hora,Producto,Tipo,Cantidad,Precio Unitario,Método de Pago,Total\n';
     
     sales.forEach(sale => {
         const date = new Date(sale.date);
@@ -278,7 +295,14 @@ function exportSales() {
         const productName = sale.product.charAt(0).toUpperCase() + sale.product.slice(1);
         const type = sale.type === 'unit' ? 'Unidad' : 'Caja';
         
-        csv += `${dateStr},${timeStr},${productName},${type},${sale.quantity},${sale.unitPrice.toFixed(2)},${sale.total.toFixed(2)}\n`;
+        const paymentTexts = {
+            efectivo: 'Efectivo',
+            yape: 'Yape',
+            fiado: 'Fiado'
+        };
+        const paymentText = paymentTexts[sale.paymentMethod] || 'Efectivo';
+        
+        csv += `${dateStr},${timeStr},${productName},${type},${sale.quantity},${sale.unitPrice.toFixed(2)},${paymentText},${sale.total.toFixed(2)}\n`;
     });
     
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });

@@ -3,8 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<<<<<<< HEAD
+    <title>Adriana - Sistema de Ventas</title>
+=======
     <title>Adriana Store - Sistema de Ventas</title>
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
+>>>>>>> 8fa4573caedc3d98d245f8aa395dc8726e8094e2
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="style.css">
 </head>
@@ -151,6 +155,15 @@
                             </div>
                         </div>
 
+                        <div>
+                            <label class="block text-purple-200 mb-2 font-semibold">Método de Pago</label>
+                            <select id="payment-method" class="input-field">
+                                <option value="efectivo">💵 Efectivo</option>
+                                <option value="yape">📱 Yape</option>
+                                <option value="fiado">📝 Fiado</option>
+                            </select>
+                        </div>
+
                         <div class="bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-xl p-4 border border-purple-500/30">
                             <p class="text-purple-200 text-sm mb-1">Total a Cobrar</p>
                             <p class="text-3xl font-bold text-white" id="sale-preview">S/ 0.00</p>
@@ -203,6 +216,7 @@
                                 <th class="px-6 py-4 text-left text-white font-semibold">Tipo</th>
                                 <th class="px-6 py-4 text-left text-white font-semibold">Cantidad</th>
                                 <th class="px-6 py-4 text-left text-white font-semibold">Precio Unit.</th>
+                                <th class="px-6 py-4 text-left text-white font-semibold">Método Pago</th>
                                 <th class="px-6 py-4 text-left text-white font-semibold">Total</th>
                             </tr>
                         </thead>
