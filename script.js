@@ -1,7 +1,7 @@
-// Base de datos local
+// Base de datos local (solo unidades reales)
 let inventory = {
-    pilsen: { units: 0, boxes: 0 },
-    heineken: { units: 0, boxes: 0 }
+    pilsen: { units: 0 },
+    heineken: { units: 0 }
 };
 
 let sales = [];
@@ -29,122 +29,134 @@ function saveData() {
 function loadData() {
     const savedInventory = localStorage.getItem('beerInventory');
     const savedSales = localStorage.getItem('beerSales');
-    
+
     if (savedInventory) {
         inventory = JSON.parse(savedInventory);
     }
-    
+
     if (savedSales) {
         sales = JSON.parse(savedSales);
     }
 }
 
+// --- NUEVO SISTEMA DE INVENTARIO ---
+// Cajas completas
+function getBoxes(product) {
+    return Math.floor(inventory[product].units / BEERS_PER_BOX);
+}
+// Unidades sueltas
+function getLooseUnits(product) {
+    return inventory[product].units % BEERS_PER_BOX;
+}
+
 // Cambiar entre tabs
 function switchTab(tabName) {
     currentTab = tabName;
-    
-    // Actualizar botones
+
     document.querySelectorAll('.tab-btn').forEach(btn => {
         btn.classList.remove('active');
     });
     document.getElementById(`tab-${tabName}`).classList.add('active');
-    
-    // Actualizar contenido
+
     document.querySelectorAll('.tab-content').forEach(content => {
         content.classList.add('hidden');
     });
     document.getElementById(`content-${tabName}`).classList.remove('hidden');
 }
 
-// Agregar stock
+// --- AGREGAR STOCK (CORREGIDO) ---
 function addStock(product) {
     const unitsInput = document.getElementById(`${product}-add-units`);
     const boxesInput = document.getElementById(`${product}-add-boxes`);
-    
+
     const units = parseInt(unitsInput.value) || 0;
     const boxes = parseInt(boxesInput.value) || 0;
-    
+
     if (units === 0 && boxes === 0) {
         showToast('Ingrese al menos una cantidad', 'warning');
         return;
     }
-    
-    inventory[product].units += units;
-    inventory[product].boxes += boxes;
-    
+
+    const totalUnits = units + (boxes * BEERS_PER_BOX);
+
+    inventory[product].units += totalUnits;
+
     saveData();
     updateInventoryDisplay();
-    
+
     unitsInput.value = '';
     boxesInput.value = '';
-    
-    const productName = product.charAt(0).toUpperCase() + product.slice(1);
-    showToast(`Stock agregado: ${productName}`, 'success');
+
+    showToast(`Stock agregado correctamente`, 'success');
 }
 
-// Actualizar display de inventario
+// --- MOSTRAR INVENTARIO ---
 function updateInventoryDisplay() {
-    document.getElementById('pilsen-units').textContent = inventory.pilsen.units;
-    document.getElementById('pilsen-boxes').textContent = inventory.pilsen.boxes;
-    document.getElementById('heineken-units').textContent = inventory.heineken.units;
-    document.getElementById('heineken-boxes').textContent = inventory.heineken.boxes;
+    document.getElementById('pilsen-units').textContent = getLooseUnits('pilsen');
+    document.getElementById('pilsen-boxes').textContent = getBoxes('pilsen');
+
+    document.getElementById('heineken-units').textContent = getLooseUnits('heineken');
+    document.getElementById('heineken-boxes').textContent = getBoxes('heineken');
 }
 
 // Setup para preview de venta
 function setupSalePreview() {
     const quantityInput = document.getElementById('quantity');
     const priceInput = document.getElementById('unit-price');
-    
+
     const updatePreview = () => {
         const quantity = parseInt(quantityInput.value) || 0;
         const price = parseFloat(priceInput.value) || 0;
         const total = quantity * price;
-        
+
         document.getElementById('sale-preview').textContent = `S/ ${total.toFixed(2)}`;
     };
-    
+
     quantityInput.addEventListener('input', updatePreview);
     priceInput.addEventListener('input', updatePreview);
 }
 
-// Registrar venta
+// --- REGISTRAR VENTA (CORREGIDO) ---
 function registerSale() {
     const product = document.getElementById('product-select').value;
     const saleType = document.getElementById('sale-type').value;
     const quantity = parseInt(document.getElementById('quantity').value);
     const unitPrice = parseFloat(document.getElementById('unit-price').value);
     const paymentMethod = document.getElementById('payment-method').value;
-    
-    // Validaciones
+
     if (!quantity || quantity <= 0) {
         showToast('Ingrese una cantidad válida', 'error');
         return;
     }
-    
+
     if (!unitPrice || unitPrice <= 0) {
         showToast('Ingrese un precio válido', 'error');
         return;
     }
-    
-    // Verificar stock disponible
+
+    // Venta por unidad
     if (saleType === 'unit') {
         if (inventory[product].units < quantity) {
-            showToast('Stock insuficiente de unidades', 'error');
+            showToast('Stock insuficiente', 'error');
             return;
         }
+
         inventory[product].units -= quantity;
-    } else { // box
-        if (inventory[product].boxes < quantity) {
-            showToast('Stock insuficiente de cajas', 'error');
+    }
+    // Venta por caja
+    else {
+        const unitsNeeded = quantity * BEERS_PER_BOX;
+
+        if (inventory[product].units < unitsNeeded) {
+            showToast('Stock insuficiente', 'error');
             return;
         }
-        inventory[product].boxes -= quantity;
+
+        inventory[product].units -= unitsNeeded;
     }
-    
-    // Calcular total
+
     const total = quantity * unitPrice;
-    
-    // Crear registro de venta
+
     const sale = {
         id: Date.now(),
         date: new Date().toISOString(),
@@ -155,33 +167,31 @@ function registerSale() {
         paymentMethod: paymentMethod,
         total: total
     };
-    
-    sales.unshift(sale); // Agregar al inicio
-    
+
+    sales.unshift(sale);
+
     saveData();
     updateInventoryDisplay();
     updateSalesDisplay();
     updateTotals();
-    
-    // Limpiar formulario
+
     document.getElementById('quantity').value = '1';
     document.getElementById('unit-price').value = '';
     document.getElementById('payment-method').value = 'efectivo';
     document.getElementById('sale-preview').textContent = 'S/ 0.00';
-    
+
     showToast(`Venta registrada: S/ ${total.toFixed(2)}`, 'success');
-    
-    // Cambiar a tab de historial después de 1.5 segundos
+
     setTimeout(() => {
         switchTab('history');
     }, 1500);
 }
 
-// Actualizar display de ventas
+// --- HISTORIAL DE VENTAS ---
 function updateSalesDisplay() {
     const tbody = document.getElementById('sales-tbody');
     tbody.innerHTML = '';
-    
+
     if (sales.length === 0) {
         tbody.innerHTML = `
             <tr>
@@ -196,7 +206,7 @@ function updateSalesDisplay() {
         `;
         return;
     }
-    
+
     sales.forEach(sale => {
         const row = document.createElement('tr');
         const date = new Date(sale.date);
@@ -207,19 +217,18 @@ function updateSalesDisplay() {
             hour: '2-digit',
             minute: '2-digit'
         });
-        
+
         const productName = sale.product.charAt(0).toUpperCase() + sale.product.slice(1);
         const typeText = sale.type === 'unit' ? 'Unidad' : 'Caja';
-        
-        // Método de pago con iconos y colores
+
         const paymentMethods = {
             efectivo: { text: 'Efectivo', icon: '💵', color: 'bg-green-500/20 text-green-300' },
             yape: { text: 'Yape', icon: '📱', color: 'bg-purple-500/20 text-purple-300' },
             fiado: { text: 'Fiado', icon: '📝', color: 'bg-orange-500/20 text-orange-300' }
         };
-        
+
         const payment = paymentMethods[sale.paymentMethod] || paymentMethods.efectivo;
-        
+
         row.innerHTML = `
             <td class="px-6 py-4">${formattedDate}</td>
             <td class="px-6 py-4">🍺 ${productName}</td>
@@ -243,25 +252,25 @@ function updateSalesDisplay() {
     });
 }
 
-// Actualizar totales
+// --- TOTALES ---
 function updateTotals() {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    
+
     let totalToday = 0;
     let totalAll = 0;
-    
+
     sales.forEach(sale => {
         const saleDate = new Date(sale.date);
         saleDate.setHours(0, 0, 0, 0);
-        
+
         totalAll += sale.total;
-        
+
         if (saleDate.getTime() === today.getTime()) {
             totalToday += sale.total;
         }
     });
-    
+
     document.getElementById('total-today').textContent = totalToday.toFixed(2);
     document.getElementById('total-all').textContent = totalAll.toFixed(2);
     document.getElementById('header-today').textContent = totalToday.toFixed(2);
@@ -285,58 +294,58 @@ function exportSales() {
         showToast('No hay ventas para exportar', 'warning');
         return;
     }
-    
+
     let csv = 'Fecha,Hora,Producto,Tipo,Cantidad,Precio Unitario,Método de Pago,Total\n';
-    
+
     sales.forEach(sale => {
         const date = new Date(sale.date);
         const dateStr = date.toLocaleDateString('es-PE');
         const timeStr = date.toLocaleTimeString('es-PE');
         const productName = sale.product.charAt(0).toUpperCase() + sale.product.slice(1);
         const type = sale.type === 'unit' ? 'Unidad' : 'Caja';
-        
+
         const paymentTexts = {
             efectivo: 'Efectivo',
             yape: 'Yape',
             fiado: 'Fiado'
         };
         const paymentText = paymentTexts[sale.paymentMethod] || 'Efectivo';
-        
+
         csv += `${dateStr},${timeStr},${productName},${type},${sale.quantity},${sale.unitPrice.toFixed(2)},${paymentText},${sale.total.toFixed(2)}\n`;
     });
-    
+
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement('a');
     const url = URL.createObjectURL(blob);
-    
+
     link.setAttribute('href', url);
     link.setAttribute('download', `ventas_${new Date().toISOString().split('T')[0]}.csv`);
     link.style.visibility = 'hidden';
-    
+
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-    
+
     showToast('Ventas exportadas correctamente', 'success');
 }
 
-// Mostrar toast notification
+// Mostrar toast
 function showToast(message, type) {
     const toast = document.getElementById('toast');
     const icon = document.getElementById('toast-icon');
     const messageEl = document.getElementById('toast-message');
-    
+
     const icons = {
         success: '✅',
         error: '❌',
         warning: '⚠️'
     };
-    
+
     icon.textContent = icons[type] || '📢';
     messageEl.textContent = message;
-    
+
     toast.className = `toast ${type} show`;
-    
+
     setTimeout(() => {
         toast.classList.remove('show');
     }, 3500);
