@@ -64,7 +64,7 @@ function switchTab(tabName) {
     document.getElementById(`content-${tabName}`).classList.remove('hidden');
 }
 
-// --- AGREGAR STOCK (CORREGIDO) ---
+// --- AGREGAR STOCK ---
 function addStock(product) {
     const unitsInput = document.getElementById(`${product}-add-units`);
     const boxesInput = document.getElementById(`${product}-add-boxes`);
@@ -88,6 +88,45 @@ function addStock(product) {
     boxesInput.value = '';
 
     showToast(`Stock agregado correctamente`, 'success');
+}
+
+// --- MODAL PARA BORRAR STOCK ---
+function openRemoveModal(product) {
+    document.getElementById("remove-modal").classList.remove("hidden");
+    document.getElementById("remove-product").value = product;
+}
+
+function closeRemoveModal() {
+    document.getElementById("remove-modal").classList.add("hidden");
+    document.getElementById("remove-units").value = "";
+    document.getElementById("remove-boxes").value = "";
+}
+
+// --- ELIMINAR STOCK (FUNCION RESTAURADA) ---
+function removeStock() {
+    const product = document.getElementById("remove-product").value;
+    const units = parseInt(document.getElementById("remove-units").value) || 0;
+    const boxes = parseInt(document.getElementById("remove-boxes").value) || 0;
+
+    const totalToRemove = units + (boxes * BEERS_PER_BOX);
+
+    if (totalToRemove <= 0) {
+        showToast("Ingrese una cantidad válida", "warning");
+        return;
+    }
+
+    if (inventory[product].units < totalToRemove) {
+        showToast("No puedes borrar más stock del que tienes", "error");
+        return;
+    }
+
+    inventory[product].units -= totalToRemove;
+
+    saveData();
+    updateInventoryDisplay();
+    closeRemoveModal();
+
+    showToast("Stock eliminado correctamente", "success");
 }
 
 // --- MOSTRAR INVENTARIO ---
@@ -116,7 +155,7 @@ function setupSalePreview() {
     priceInput.addEventListener('input', updatePreview);
 }
 
-// --- REGISTRAR VENTA (CORREGIDO) ---
+// --- REGISTRAR VENTA ---
 function registerSale() {
     const product = document.getElementById('product-select').value;
     const saleType = document.getElementById('sale-type').value;
@@ -140,7 +179,6 @@ function registerSale() {
             showToast('Stock insuficiente', 'error');
             return;
         }
-
         inventory[product].units -= quantity;
     }
     // Venta por caja
@@ -151,7 +189,6 @@ function registerSale() {
             showToast('Stock insuficiente', 'error');
             return;
         }
-
         inventory[product].units -= unitsNeeded;
     }
 
@@ -349,4 +386,46 @@ function showToast(message, type) {
     setTimeout(() => {
         toast.classList.remove('show');
     }, 3500);
+}
+// --- NUEVAS FUNCIONES QUE NECESITA TU HTML ---
+
+// Abrir el modal correcto
+function openDeleteModal(product) {
+    document.getElementById("deleteStockModal").classList.remove("hidden");
+    document.getElementById("deleteStockModal").setAttribute("data-product", product);
+}
+
+// Cerrar modal
+function closeDeleteModal() {
+    document.getElementById("deleteStockModal").classList.add("hidden");
+    document.getElementById("remove-units-input").value = "";
+    document.getElementById("remove-boxes-input").value = "";
+}
+
+// Confirmar borrado de stock
+function confirmRemoveStock() {
+    const product = document.getElementById("deleteStockModal").getAttribute("data-product");
+
+    const units = parseInt(document.getElementById("remove-units-input").value) || 0;
+    const boxes = parseInt(document.getElementById("remove-boxes-input").value) || 0;
+
+    const totalToRemove = units + (boxes * BEERS_PER_BOX);
+
+    if (totalToRemove <= 0) {
+        showToast("Ingrese una cantidad válida", "warning");
+        return;
+    }
+
+    if (inventory[product].units < totalToRemove) {
+        showToast("No puedes borrar más stock del que tienes", "error");
+        return;
+    }
+
+    inventory[product].units -= totalToRemove;
+
+    saveData();
+    updateInventoryDisplay();
+    closeDeleteModal();
+
+    showToast("Stock eliminado correctamente", "success");
 }
