@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Adriana Store - Sistema de Ventas</title>
-    <link rel="icon" href="favicon.svg" type="image/svg+xml">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="style.css">
 </head>
@@ -76,8 +75,15 @@
                             <input type="number" id="pilsen-add-boxes" 
                                    class="input-field" 
                                    placeholder="Cantidad de cajas" min="0">
+
                             <button onclick="addStock('pilsen')" class="btn-primary w-full">
                                 ➕ Agregar Stock
+                            </button>
+
+                            <!-- BOTÓN PARA BORRAR STOCK -->
+                            <button onclick="openDeleteModal('pilsen')" 
+                                    class="w-full mt-2 bg-red-600 hover:bg-red-700 text-white py-2 rounded-lg font-semibold transition">
+                                🗑️ Borrar Stock
                             </button>
                         </div>
                     </div>
@@ -107,8 +113,15 @@
                             <input type="number" id="heineken-add-boxes" 
                                    class="input-field" 
                                    placeholder="Cantidad de cajas" min="0">
+                            
                             <button onclick="addStock('heineken')" class="btn-primary w-full">
                                 ➕ Agregar Stock
+                            </button>
+
+                            <!-- BOTÓN PARA BORRAR STOCK -->
+                            <button onclick="openDeleteModal('heineken')" 
+                                    class="w-full mt-2 bg-red-600 hover:bg-red-700 text-white py-2 rounded-lg font-semibold transition">
+                                🗑️ Borrar Stock
                             </button>
                         </div>
                     </div>
@@ -233,6 +246,40 @@
             </p>
         </div>
     </footer>
+
+
+    <!-- 🔥 MODAL PARA BORRAR STOCK -->
+    <div id="deleteStockModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center hidden z-50">
+        <div class="bg-white/10 border border-white/20 rounded-2xl p-8 w-full max-w-md shadow-xl glass-card">
+
+            <h2 class="text-3xl font-bold text-white mb-4 text-center">🗑️ Borrar Stock</h2>
+
+            <p class="text-purple-200 text-center mb-6">
+                Ingresa la cantidad de stock que deseas borrar.
+            </p>
+
+            <input type="number" id="remove-units-input" 
+                class="input-field mb-4"
+                placeholder="Unidades a borrar" min="0">
+
+            <input type="number" id="remove-boxes-input" 
+                class="input-field mb-6"
+                placeholder="Cajas a borrar" min="0">
+
+            <div class="flex gap-4">
+                <button onclick="confirmRemoveStock()" 
+                    class="flex-1 bg-red-600 hover:bg-red-700 text-white py-3 rounded-xl font-semibold">
+                    Confirmar
+                </button>
+
+                <button onclick="closeDeleteModal()" 
+                    class="flex-1 bg-gray-500/40 hover:bg-gray-500/60 text-white py-3 rounded-xl font-semibold">
+                    Cancelar
+                </button>
+            </div>
+        </div>
+    </div>
+
 
     <!-- Toast Notification -->
     <div id="toast" class="toast">
