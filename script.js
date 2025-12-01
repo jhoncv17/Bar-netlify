@@ -1,3 +1,5 @@
+import { saveInventory, loadInventory, saveSale, loadSales, deleteAllSales } from './js/database.js';
+
 // Base de datos local (solo unidades reales)
 let inventory = {
     pilsen: { units: 0 },
@@ -11,31 +13,43 @@ let currentTab = 'inventory';
 const BEERS_PER_BOX = 12;
 
 // Inicializar al cargar la página
-window.addEventListener('DOMContentLoaded', () => {
-    loadData();
+window.addEventListener('DOMContentLoaded', async () => {
+    await loadData();
     updateInventoryDisplay();
     updateSalesDisplay();
     updateTotals();
     setupSalePreview();
 });
 
-// Guardar datos en localStorage
-function saveData() {
-    localStorage.setItem('beerInventory', JSON.stringify(inventory));
-    localStorage.setItem('beerSales', JSON.stringify(sales));
+// Guardar datos en Firebase
+async function saveData() {
+    try {
+        // Guardar inventario
+        await saveInventory('pilsen', inventory.pilsen.units);
+        await saveInventory('heineken', inventory.heineken.units);
+        
+        console.log('✅ Datos guardados en Firebase');
+    } catch (error) {
+        console.error('Error al guardar en Firebase:', error);
+        showToast('Error al guardar datos', 'error');
+    }
 }
 
-// Cargar datos de localStorage
-function loadData() {
-    const savedInventory = localStorage.getItem('beerInventory');
-    const savedSales = localStorage.getItem('beerSales');
+// Cargar datos desde Firebase
+async function loadData() {
+    try {
+        // Cargar inventario
+        const inventoryData = await loadInventory();
+        inventory.pilsen.units = inventoryData.pilsen.units || 0;
+        inventory.heineken.units = inventoryData.heineken.units || 0;
 
-    if (savedInventory) {
-        inventory = JSON.parse(savedInventory);
-    }
-
-    if (savedSales) {
-        sales = JSON.parse(savedSales);
+        // Cargar ventas
+        sales = await loadSales();
+        
+        console.log('✅ Datos cargados desde Firebase');
+    } catch (error) {
+        console.error('Error al cargar desde Firebase:', error);
+        showToast('Error al cargar datos', 'warning');
     }
 }
 
@@ -50,7 +64,7 @@ function getLooseUnits(product) {
 }
 
 // Cambiar entre tabs
-function switchTab(tabName) {
+window.switchTab = function(tabName) {
     currentTab = tabName;
 
     document.querySelectorAll('.tab-btn').forEach(btn => {
@@ -65,7 +79,7 @@ function switchTab(tabName) {
 }
 
 // --- AGREGAR STOCK ---
-function addStock(product) {
+window.addStock = async function(product) {
     const unitsInput = document.getElementById(`${product}-add-units`);
     const boxesInput = document.getElementById(`${product}-add-boxes`);
 
@@ -81,52 +95,13 @@ function addStock(product) {
 
     inventory[product].units += totalUnits;
 
-    saveData();
+    await saveData();
     updateInventoryDisplay();
 
     unitsInput.value = '';
     boxesInput.value = '';
 
     showToast(`Stock agregado correctamente`, 'success');
-}
-
-// --- MODAL PARA BORRAR STOCK ---
-function openRemoveModal(product) {
-    document.getElementById("remove-modal").classList.remove("hidden");
-    document.getElementById("remove-product").value = product;
-}
-
-function closeRemoveModal() {
-    document.getElementById("remove-modal").classList.add("hidden");
-    document.getElementById("remove-units").value = "";
-    document.getElementById("remove-boxes").value = "";
-}
-
-// --- ELIMINAR STOCK (FUNCION RESTAURADA) ---
-function removeStock() {
-    const product = document.getElementById("remove-product").value;
-    const units = parseInt(document.getElementById("remove-units").value) || 0;
-    const boxes = parseInt(document.getElementById("remove-boxes").value) || 0;
-
-    const totalToRemove = units + (boxes * BEERS_PER_BOX);
-
-    if (totalToRemove <= 0) {
-        showToast("Ingrese una cantidad válida", "warning");
-        return;
-    }
-
-    if (inventory[product].units < totalToRemove) {
-        showToast("No puedes borrar más stock del que tienes", "error");
-        return;
-    }
-
-    inventory[product].units -= totalToRemove;
-
-    saveData();
-    updateInventoryDisplay();
-    closeRemoveModal();
-
-    showToast("Stock eliminado correctamente", "success");
 }
 
 // --- MOSTRAR INVENTARIO ---
@@ -156,7 +131,7 @@ function setupSalePreview() {
 }
 
 // --- REGISTRAR VENTA ---
-function registerSale() {
+window.registerSale = async function() {
     const product = document.getElementById('product-select').value;
     const saleType = document.getElementById('sale-type').value;
     const quantity = parseInt(document.getElementById('quantity').value);
@@ -195,7 +170,6 @@ function registerSale() {
     const total = quantity * unitPrice;
 
     const sale = {
-        id: Date.now(),
         date: new Date().toISOString(),
         product: product,
         type: saleType,
@@ -205,23 +179,40 @@ function registerSale() {
         total: total
     };
 
-    sales.unshift(sale);
+    try {
+        // Guardar venta en Firebase
+        await saveSale(sale);
+        
+        // Actualizar inventario en Firebase
+        await saveData();
+        
+        // Recargar ventas
+        sales = await loadSales();
+        
+        updateInventoryDisplay();
+        updateSalesDisplay();
+        updateTotals();
 
-    saveData();
-    updateInventoryDisplay();
-    updateSalesDisplay();
-    updateTotals();
+        document.getElementById('quantity').value = '1';
+        document.getElementById('unit-price').value = '';
+        document.getElementById('payment-method').value = 'efectivo';
+        document.getElementById('sale-preview').textContent = 'S/ 0.00';
 
-    document.getElementById('quantity').value = '1';
-    document.getElementById('unit-price').value = '';
-    document.getElementById('payment-method').value = 'efectivo';
-    document.getElementById('sale-preview').textContent = 'S/ 0.00';
+        showToast(`Venta registrada: S/ ${total.toFixed(2)}`, 'success');
 
-    showToast(`Venta registrada: S/ ${total.toFixed(2)}`, 'success');
-
-    setTimeout(() => {
-        switchTab('history');
-    }, 1500);
+        setTimeout(() => {
+            switchTab('history');
+        }, 1500);
+    } catch (error) {
+        console.error('Error al registrar venta:', error);
+        showToast('Error al registrar venta', 'error');
+        // Revertir el cambio de inventario
+        if (saleType === 'unit') {
+            inventory[product].units += quantity;
+        } else {
+            inventory[product].units += (quantity * BEERS_PER_BOX);
+        }
+    }
 }
 
 // --- HISTORIAL DE VENTAS ---
@@ -232,7 +223,7 @@ function updateSalesDisplay() {
     if (sales.length === 0) {
         tbody.innerHTML = `
             <tr>
-                <td colspan="6" class="empty-state">
+                <td colspan="7" class="empty-state">
                     <div class="py-12">
                         <div class="text-6xl mb-4">📋</div>
                         <p class="text-xl">No hay ventas registradas</p>
@@ -315,18 +306,23 @@ function updateTotals() {
 }
 
 // Limpiar historial de ventas
-function clearSales() {
+window.clearSales = async function() {
     if (confirm('¿Está seguro de que desea eliminar todo el historial de ventas?\n\nEsta acción no se puede deshacer.')) {
-        sales = [];
-        saveData();
-        updateSalesDisplay();
-        updateTotals();
-        showToast('Historial de ventas eliminado', 'success');
+        try {
+            await deleteAllSales();
+            sales = [];
+            updateSalesDisplay();
+            updateTotals();
+            showToast('Historial de ventas eliminado', 'success');
+        } catch (error) {
+            console.error('Error al eliminar ventas:', error);
+            showToast('Error al eliminar historial', 'error');
+        }
     }
 }
 
 // Exportar ventas a CSV
-function exportSales() {
+window.exportSales = function() {
     if (sales.length === 0) {
         showToast('No hay ventas para exportar', 'warning');
         return;
@@ -387,23 +383,21 @@ function showToast(message, type) {
         toast.classList.remove('show');
     }, 3500);
 }
-// --- NUEVAS FUNCIONES QUE NECESITA TU HTML ---
 
-// Abrir el modal correcto
-function openDeleteModal(product) {
+// --- MODAL PARA BORRAR STOCK ---
+window.openDeleteModal = function(product) {
     document.getElementById("deleteStockModal").classList.remove("hidden");
     document.getElementById("deleteStockModal").setAttribute("data-product", product);
 }
 
-// Cerrar modal
-function closeDeleteModal() {
+window.closeDeleteModal = function() {
     document.getElementById("deleteStockModal").classList.add("hidden");
     document.getElementById("remove-units-input").value = "";
     document.getElementById("remove-boxes-input").value = "";
 }
 
 // Confirmar borrado de stock
-function confirmRemoveStock() {
+window.confirmRemoveStock = async function() {
     const product = document.getElementById("deleteStockModal").getAttribute("data-product");
 
     const units = parseInt(document.getElementById("remove-units-input").value) || 0;
@@ -423,7 +417,7 @@ function confirmRemoveStock() {
 
     inventory[product].units -= totalToRemove;
 
-    saveData();
+    await saveData();
     updateInventoryDisplay();
     closeDeleteModal();
 
