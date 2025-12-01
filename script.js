@@ -1,431 +1,230 @@
-// Base de datos local (solo unidades reales)
+import {
+  saveInventory,
+  loadInventory,
+  saveSale,
+  loadSales,
+  deleteAllSales
+} from "./database.js";
+
+// ---------------------------------------------------------------------
+// 🔥 VARIABLES GLOBALES DEL SISTEMA
+// ---------------------------------------------------------------------
+
 let inventory = {
-    pilsen: { units: 0 },
-    heineken: { units: 0 }
+  pilsen: 0,
+  heineken: 0
 };
 
-let sales = [];
-let currentTab = 'inventory';
+let cart = []; // Carrito temporal
+let productCatalog = document.getElementById("productCatalog");
+let cartItemsContainer = document.getElementById("cartItems");
+let totalPriceElement = document.getElementById("totalPrice");
 
-// Constantes
-const BEERS_PER_BOX = 12;
+// ---------------------------------------------------------------------
+// 🔥 CARGAR INVENTARIO DESDE FIREBASE
+// ---------------------------------------------------------------------
 
-// Inicializar al cargar la página
-window.addEventListener('DOMContentLoaded', () => {
-    loadData();
-    updateInventoryDisplay();
-    updateSalesDisplay();
-    updateTotals();
-    setupSalePreview();
+async function initializeInventory() {
+  const data = await loadInventory();
+
+  inventory.pilsen = data.pilsen.units;
+  inventory.heineken = data.heineken.units;
+
+  updateInventoryUI();
+}
+
+// Actualizar UI del inventario
+function updateInventoryUI() {
+  document.getElementById("pilsenUnits").innerText = inventory.pilsen;
+  document.getElementById("heinekenUnits").innerText = inventory.heineken;
+}
+
+// ---------------------------------------------------------------------
+// 🔥 GUARDAR INVENTARIO EN FIREBASE
+// ---------------------------------------------------------------------
+
+document.getElementById("updateInventoryBtn")?.addEventListener("click", async () => {
+  let pilsen = parseInt(document.getElementById("pilsenInput").value);
+  let heineken = parseInt(document.getElementById("heinekenInput").value);
+
+  inventory.pilsen += pilsen;
+  inventory.heineken += heineken;
+
+  await saveInventory("pilsen", inventory.pilsen);
+  await saveInventory("heineken", inventory.heineken);
+
+  updateInventoryUI();
+  alert("Inventario actualizado correctamente");
 });
 
-// Guardar datos en localStorage
-function saveData() {
-    localStorage.setItem('beerInventory', JSON.stringify(inventory));
-    localStorage.setItem('beerSales', JSON.stringify(sales));
+// ---------------------------------------------------------------------
+// 🔥 PRODUCTOS DISPONIBLES
+// ---------------------------------------------------------------------
+
+const products = {
+  pilsen: {
+    name: "Cerveza Pilsen",
+    price: 10.00,
+    img: "../img/pilsen.jpg"
+  },
+
+  heineken: {
+    name: "Cerveza Heineken",
+    price: 12.00,
+    img: "../img/heineken.jpg"
+  }
+};
+
+// ---------------------------------------------------------------------
+// 🔥 MOSTRAR PRODUCTOS EN EL CATÁLOGO
+// ---------------------------------------------------------------------
+
+if (productCatalog) {
+  Object.keys(products).forEach((key) => {
+    const p = products[key];
+    const div = document.createElement("div");
+    div.classList.add("product");
+
+    div.innerHTML = `
+      <img src="${p.img}">
+      <h3>${p.name}</h3>
+      <p>S/ ${p.price.toFixed(2)}</p>
+      <button onclick="addToCart('${key}')">Agregar</button>
+    `;
+
+    productCatalog.appendChild(div);
+  });
 }
 
-// Cargar datos de localStorage
-function loadData() {
-    const savedInventory = localStorage.getItem('beerInventory');
-    const savedSales = localStorage.getItem('beerSales');
+// ---------------------------------------------------------------------
+// 🔥 AÑADIR AL CARRITO
+// ---------------------------------------------------------------------
 
-    if (savedInventory) {
-        inventory = JSON.parse(savedInventory);
-    }
+window.addToCart = function (productKey) {
+  const product = products[productKey];
 
-    if (savedSales) {
-        sales = JSON.parse(savedSales);
-    }
+  if (inventory[productKey] <= 0) {
+    alert("No hay stock disponible.");
+    return;
+  }
+
+  cart.push(product);
+  inventory[productKey]--;
+
+  updateCartUI();
+  updateInventoryUI();
+};
+
+// ---------------------------------------------------------------------
+// 🔥 MOSTRAR CARRITO
+// ---------------------------------------------------------------------
+
+function updateCartUI() {
+  cartItemsContainer.innerHTML = "";
+
+  cart.forEach((p, index) => {
+    const div = document.createElement("div");
+
+    div.innerHTML = `
+      <p>${p.name} - S/ ${p.price.toFixed(2)}</p>
+      <button onclick="removeFromCart(${index})">Quitar</button>
+      <hr>
+    `;
+
+    cartItemsContainer.appendChild(div);
+  });
+
+  let total = cart.reduce((sum, p) => sum + p.price, 0);
+  totalPriceElement.innerText = total.toFixed(2);
 }
 
-// --- NUEVO SISTEMA DE INVENTARIO ---
-// Cajas completas
-function getBoxes(product) {
-    return Math.floor(inventory[product].units / BEERS_PER_BOX);
-}
-// Unidades sueltas
-function getLooseUnits(product) {
-    return inventory[product].units % BEERS_PER_BOX;
-}
+// ---------------------------------------------------------------------
+// 🔥 QUITAR ITEM DEL CARRITO
+// ---------------------------------------------------------------------
 
-// Cambiar entre tabs
-function switchTab(tabName) {
-    currentTab = tabName;
+window.removeFromCart = function (index) {
+  const product = cart[index];
 
-    document.querySelectorAll('.tab-btn').forEach(btn => {
-        btn.classList.remove('active');
-    });
-    document.getElementById(`tab-${tabName}`).classList.add('active');
+  inventory[getKeyFromProduct(product)]++;
 
-    document.querySelectorAll('.tab-content').forEach(content => {
-        content.classList.add('hidden');
-    });
-    document.getElementById(`content-${tabName}`).classList.remove('hidden');
+  cart.splice(index, 1);
+
+  updateCartUI();
+  updateInventoryUI();
+};
+
+function getKeyFromProduct(product) {
+  return Object.keys(products).find(key => products[key].name === product.name);
 }
 
-// --- AGREGAR STOCK ---
-function addStock(product) {
-    const unitsInput = document.getElementById(`${product}-add-units`);
-    const boxesInput = document.getElementById(`${product}-add-boxes`);
+// ---------------------------------------------------------------------
+// 🔥 PROCESAR VENTA Y GUARDAR EN FIREBASE
+// ---------------------------------------------------------------------
 
-    const units = parseInt(unitsInput.value) || 0;
-    const boxes = parseInt(boxesInput.value) || 0;
+document.getElementById("completeSaleBtn")?.addEventListener("click", async () => {
+  if (cart.length === 0) {
+    alert("El carrito está vacío");
+    return;
+  }
 
-    if (units === 0 && boxes === 0) {
-        showToast('Ingrese al menos una cantidad', 'warning');
-        return;
-    }
+  const total = cart.reduce((sum, p) => sum + p.price, 0);
 
-    const totalUnits = units + (boxes * BEERS_PER_BOX);
+  const saleData = {
+    items: cart.map(p => p.name),
+    total: total,
+    date: new Date().toISOString()
+  };
 
-    inventory[product].units += totalUnits;
+  await saveSale(saleData);
 
-    saveData();
-    updateInventoryDisplay();
+  alert("Venta registrada con éxito");
 
-    unitsInput.value = '';
-    boxesInput.value = '';
+  cart = [];
+  updateCartUI();
+});
 
-    showToast(`Stock agregado correctamente`, 'success');
+// ---------------------------------------------------------------------
+// 🔥 CARGAR HISTORIAL DE VENTAS
+// ---------------------------------------------------------------------
+
+async function updateSalesHistory() {
+  const sales = await loadSales();
+  const container = document.getElementById("salesHistory");
+
+  container.innerHTML = "";
+
+  sales.forEach((sale) => {
+    const div = document.createElement("div");
+
+    div.innerHTML = `
+      <p><strong>${new Date(sale.date).toLocaleString()}</strong></p>
+      <p>Items: ${sale.items.join(", ")}</p>
+      <p>Total: S/ ${sale.total.toFixed(2)}</p>
+      <hr>
+    `;
+
+    container.appendChild(div);
+  });
 }
 
-// --- MODAL PARA BORRAR STOCK ---
-function openRemoveModal(product) {
-    document.getElementById("remove-modal").classList.remove("hidden");
-    document.getElementById("remove-product").value = product;
-}
-
-function closeRemoveModal() {
-    document.getElementById("remove-modal").classList.add("hidden");
-    document.getElementById("remove-units").value = "";
-    document.getElementById("remove-boxes").value = "";
-}
-
-// --- ELIMINAR STOCK (FUNCION RESTAURADA) ---
-function removeStock() {
-    const product = document.getElementById("remove-product").value;
-    const units = parseInt(document.getElementById("remove-units").value) || 0;
-    const boxes = parseInt(document.getElementById("remove-boxes").value) || 0;
-
-    const totalToRemove = units + (boxes * BEERS_PER_BOX);
-
-    if (totalToRemove <= 0) {
-        showToast("Ingrese una cantidad válida", "warning");
-        return;
-    }
-
-    if (inventory[product].units < totalToRemove) {
-        showToast("No puedes borrar más stock del que tienes", "error");
-        return;
-    }
-
-    inventory[product].units -= totalToRemove;
-
-    saveData();
-    updateInventoryDisplay();
-    closeRemoveModal();
-
-    showToast("Stock eliminado correctamente", "success");
-}
-
-// --- MOSTRAR INVENTARIO ---
-function updateInventoryDisplay() {
-    document.getElementById('pilsen-units').textContent = getLooseUnits('pilsen');
-    document.getElementById('pilsen-boxes').textContent = getBoxes('pilsen');
-
-    document.getElementById('heineken-units').textContent = getLooseUnits('heineken');
-    document.getElementById('heineken-boxes').textContent = getBoxes('heineken');
-}
-
-// Setup para preview de venta
-function setupSalePreview() {
-    const quantityInput = document.getElementById('quantity');
-    const priceInput = document.getElementById('unit-price');
-
-    const updatePreview = () => {
-        const quantity = parseInt(quantityInput.value) || 0;
-        const price = parseFloat(priceInput.value) || 0;
-        const total = quantity * price;
-
-        document.getElementById('sale-preview').textContent = `S/ ${total.toFixed(2)}`;
-    };
-
-    quantityInput.addEventListener('input', updatePreview);
-    priceInput.addEventListener('input', updatePreview);
-}
-
-// --- REGISTRAR VENTA ---
-function registerSale() {
-    const product = document.getElementById('product-select').value;
-    const saleType = document.getElementById('sale-type').value;
-    const quantity = parseInt(document.getElementById('quantity').value);
-    const unitPrice = parseFloat(document.getElementById('unit-price').value);
-    const paymentMethod = document.getElementById('payment-method').value;
-
-    if (!quantity || quantity <= 0) {
-        showToast('Ingrese una cantidad válida', 'error');
-        return;
-    }
-
-    if (!unitPrice || unitPrice <= 0) {
-        showToast('Ingrese un precio válido', 'error');
-        return;
-    }
-
-    // Venta por unidad
-    if (saleType === 'unit') {
-        if (inventory[product].units < quantity) {
-            showToast('Stock insuficiente', 'error');
-            return;
-        }
-        inventory[product].units -= quantity;
-    }
-    // Venta por caja
-    else {
-        const unitsNeeded = quantity * BEERS_PER_BOX;
-
-        if (inventory[product].units < unitsNeeded) {
-            showToast('Stock insuficiente', 'error');
-            return;
-        }
-        inventory[product].units -= unitsNeeded;
-    }
-
-    const total = quantity * unitPrice;
-
-    const sale = {
-        id: Date.now(),
-        date: new Date().toISOString(),
-        product: product,
-        type: saleType,
-        quantity: quantity,
-        unitPrice: unitPrice,
-        paymentMethod: paymentMethod,
-        total: total
-    };
-
-    sales.unshift(sale);
-
-    saveData();
-    updateInventoryDisplay();
-    updateSalesDisplay();
-    updateTotals();
-
-    document.getElementById('quantity').value = '1';
-    document.getElementById('unit-price').value = '';
-    document.getElementById('payment-method').value = 'efectivo';
-    document.getElementById('sale-preview').textContent = 'S/ 0.00';
-
-    showToast(`Venta registrada: S/ ${total.toFixed(2)}`, 'success');
-
-    setTimeout(() => {
-        switchTab('history');
-    }, 1500);
-}
-
-// --- HISTORIAL DE VENTAS ---
-function updateSalesDisplay() {
-    const tbody = document.getElementById('sales-tbody');
-    tbody.innerHTML = '';
-
-    if (sales.length === 0) {
-        tbody.innerHTML = `
-            <tr>
-                <td colspan="6" class="empty-state">
-                    <div class="py-12">
-                        <div class="text-6xl mb-4">📋</div>
-                        <p class="text-xl">No hay ventas registradas</p>
-                        <p class="text-sm mt-2">Las ventas aparecerán aquí</p>
-                    </div>
-                </td>
-            </tr>
-        `;
-        return;
-    }
-
-    sales.forEach(sale => {
-        const row = document.createElement('tr');
-        const date = new Date(sale.date);
-        const formattedDate = date.toLocaleString('es-PE', {
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit'
-        });
-
-        const productName = sale.product.charAt(0).toUpperCase() + sale.product.slice(1);
-        const typeText = sale.type === 'unit' ? 'Unidad' : 'Caja';
-
-        const paymentMethods = {
-            efectivo: { text: 'Efectivo', icon: '💵', color: 'bg-green-500/20 text-green-300' },
-            yape: { text: 'Yape', icon: '📱', color: 'bg-purple-500/20 text-purple-300' },
-            fiado: { text: 'Fiado', icon: '📝', color: 'bg-orange-500/20 text-orange-300' }
-        };
-
-        const payment = paymentMethods[sale.paymentMethod] || paymentMethods.efectivo;
-
-        row.innerHTML = `
-            <td class="px-6 py-4">${formattedDate}</td>
-            <td class="px-6 py-4">🍺 ${productName}</td>
-            <td class="px-6 py-4">
-                <span class="px-3 py-1 rounded-full text-xs font-semibold ${sale.type === 'unit' ? 'bg-blue-500/20 text-blue-300' : 'bg-purple-500/20 text-purple-300'}">
-                    ${typeText}
-                </span>
-            </td>
-            <td class="px-6 py-4 font-semibold">${sale.quantity}</td>
-            <td class="px-6 py-4">S/ ${sale.unitPrice.toFixed(2)}</td>
-            <td class="px-6 py-4">
-                <span class="px-3 py-1 rounded-full text-xs font-semibold ${payment.color}">
-                    ${payment.icon} ${payment.text}
-                </span>
-            </td>
-            <td class="px-6 py-4">
-                <span class="text-green-400 font-bold text-lg">S/ ${sale.total.toFixed(2)}</span>
-            </td>
-        `;
-        tbody.appendChild(row);
-    });
-}
-
-// --- TOTALES ---
-function updateTotals() {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-
-    let totalToday = 0;
-    let totalAll = 0;
-
-    sales.forEach(sale => {
-        const saleDate = new Date(sale.date);
-        saleDate.setHours(0, 0, 0, 0);
-
-        totalAll += sale.total;
-
-        if (saleDate.getTime() === today.getTime()) {
-            totalToday += sale.total;
-        }
-    });
-
-    document.getElementById('total-today').textContent = totalToday.toFixed(2);
-    document.getElementById('total-all').textContent = totalAll.toFixed(2);
-    document.getElementById('header-today').textContent = totalToday.toFixed(2);
-    document.getElementById('total-sales-count').textContent = sales.length;
-}
-
-// Limpiar historial de ventas
-function clearSales() {
-    if (confirm('¿Está seguro de que desea eliminar todo el historial de ventas?\n\nEsta acción no se puede deshacer.')) {
-        sales = [];
-        saveData();
-        updateSalesDisplay();
-        updateTotals();
-        showToast('Historial de ventas eliminado', 'success');
-    }
-}
-
-// Exportar ventas a CSV
-function exportSales() {
-    if (sales.length === 0) {
-        showToast('No hay ventas para exportar', 'warning');
-        return;
-    }
-
-    let csv = 'Fecha,Hora,Producto,Tipo,Cantidad,Precio Unitario,Método de Pago,Total\n';
-
-    sales.forEach(sale => {
-        const date = new Date(sale.date);
-        const dateStr = date.toLocaleDateString('es-PE');
-        const timeStr = date.toLocaleTimeString('es-PE');
-        const productName = sale.product.charAt(0).toUpperCase() + sale.product.slice(1);
-        const type = sale.type === 'unit' ? 'Unidad' : 'Caja';
-
-        const paymentTexts = {
-            efectivo: 'Efectivo',
-            yape: 'Yape',
-            fiado: 'Fiado'
-        };
-        const paymentText = paymentTexts[sale.paymentMethod] || 'Efectivo';
-
-        csv += `${dateStr},${timeStr},${productName},${type},${sale.quantity},${sale.unitPrice.toFixed(2)},${paymentText},${sale.total.toFixed(2)}\n`;
-    });
-
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-    const link = document.createElement('a');
-    const url = URL.createObjectURL(blob);
-
-    link.setAttribute('href', url);
-    link.setAttribute('download', `ventas_${new Date().toISOString().split('T')[0]}.csv`);
-    link.style.visibility = 'hidden';
-
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-
-    showToast('Ventas exportadas correctamente', 'success');
-}
-
-// Mostrar toast
-function showToast(message, type) {
-    const toast = document.getElementById('toast');
-    const icon = document.getElementById('toast-icon');
-    const messageEl = document.getElementById('toast-message');
-
-    const icons = {
-        success: '✅',
-        error: '❌',
-        warning: '⚠️'
-    };
-
-    icon.textContent = icons[type] || '📢';
-    messageEl.textContent = message;
-
-    toast.className = `toast ${type} show`;
-
-    setTimeout(() => {
-        toast.classList.remove('show');
-    }, 3500);
-}
-// --- NUEVAS FUNCIONES QUE NECESITA TU HTML ---
-
-// Abrir el modal correcto
-function openDeleteModal(product) {
-    document.getElementById("deleteStockModal").classList.remove("hidden");
-    document.getElementById("deleteStockModal").setAttribute("data-product", product);
-}
-
-// Cerrar modal
-function closeDeleteModal() {
-    document.getElementById("deleteStockModal").classList.add("hidden");
-    document.getElementById("remove-units-input").value = "";
-    document.getElementById("remove-boxes-input").value = "";
-}
-
-// Confirmar borrado de stock
-function confirmRemoveStock() {
-    const product = document.getElementById("deleteStockModal").getAttribute("data-product");
-
-    const units = parseInt(document.getElementById("remove-units-input").value) || 0;
-    const boxes = parseInt(document.getElementById("remove-boxes-input").value) || 0;
-
-    const totalToRemove = units + (boxes * BEERS_PER_BOX);
-
-    if (totalToRemove <= 0) {
-        showToast("Ingrese una cantidad válida", "warning");
-        return;
-    }
-
-    if (inventory[product].units < totalToRemove) {
-        showToast("No puedes borrar más stock del que tienes", "error");
-        return;
-    }
-
-    inventory[product].units -= totalToRemove;
-
-    saveData();
-    updateInventoryDisplay();
-    closeDeleteModal();
-
-    showToast("Stock eliminado correctamente", "success");
-}
+// ---------------------------------------------------------------------
+// 🔥 BORRAR TODO EL HISTORIAL
+// ---------------------------------------------------------------------
+
+document.getElementById("deleteHistoryBtn")?.addEventListener("click", async () => {
+  await deleteAllSales();
+  alert("Todo el historial fue eliminado.");
+  updateSalesHistory();
+});
+
+// ---------------------------------------------------------------------
+// 🔥 INICIALIZACIÓN GENERAL
+// ---------------------------------------------------------------------
+
+document.addEventListener("DOMContentLoaded", async () => {
+  await initializeInventory();
+
+  if (document.getElementById("salesHistory")) {
+    await updateSalesHistory();
+  }
+});
