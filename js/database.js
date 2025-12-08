@@ -11,6 +11,27 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
 
 // -------------------------------
+// 🔥 BACKUP AUTOMÁTICO (AGREGADO)
+// -------------------------------
+
+// Guarda copia del inventario cada vez que se actualiza
+async function backupInventory(product, units) {
+  await addDoc(collection(db, "inventory_backup"), {
+    product: product,
+    units: units,
+    timestamp: new Date()
+  });
+}
+
+// Guarda copia de cada venta
+async function backupSale(sale) {
+  await addDoc(collection(db, "sales_backup"), {
+    ...sale,
+    timestamp: new Date()
+  });
+}
+
+// -------------------------------
 // 🔥 INVENTARIO
 // -------------------------------
 
@@ -19,6 +40,9 @@ export async function saveInventory(product, units) {
   await setDoc(doc(db, "inventory", product), {
     units: units
   });
+
+  // BACKUP AUTOMÁTICO
+  await backupInventory(product, units);
 }
 
 // Obtiene inventario completo
@@ -39,6 +63,9 @@ export async function loadInventory() {
 // Registrar venta
 export async function saveSale(sale) {
   await addDoc(collection(db, "sales"), sale);
+
+  // BACKUP AUTOMÁTICO
+  await backupSale(sale);
 }
 
 // Cargar ventas
