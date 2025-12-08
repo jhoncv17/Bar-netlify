@@ -469,7 +469,15 @@ window.restoreAllSystem = async function () {
 // 🔐 MODAL SECRETO DE ADMINISTRADOR
 // --------------------------------------
 
-const ADMIN_PIN = "12345"; // Cambia este PIN cuando quieras
+import { getAdminPin, updateAdminPin } from "./js/database.js";
+
+let ADMIN_PIN = "71937254";
+
+// Cargar PIN real desde Firebase
+(async () => {
+    ADMIN_PIN = await getAdminPin();
+})();
+
 
 // Detectar clics en el icono 🍺
 const headerIcon = document.getElementById("secretAdminBtn");
@@ -497,6 +505,19 @@ window.validateAdminPin = function () {
     } else {
         showToast("PIN incorrecto", "error");
     }
+};
+window.changeAdminPin = async function () {
+    const newPin = prompt("Ingrese el nuevo PIN (solo números):");
+
+    if (!newPin || newPin.trim() === "") {
+        showToast("PIN inválido", "warning");
+        return;
+    }
+
+    await updateAdminPin(newPin);
+    ADMIN_PIN = newPin;
+
+    showToast("PIN actualizado correctamente", "success");
 };
 
 // --------------------------------------
