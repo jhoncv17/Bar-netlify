@@ -92,27 +92,3 @@ export async function deleteAllSales() {
     await deleteDoc(doc(db, "sales", d.id));
   }
 }
-// --------------------------------------
-// 🔐 PIN de Administrador (Firebase)
-// --------------------------------------
-
-import { db } from "./firebase.js";
-import { doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
-
-// Obtener PIN desde Firebase
-export async function getAdminPin() {
-    const ref = doc(db, "config", "admin");
-    const snap = await getDoc(ref);
-
-    if (snap.exists()) {
-        return snap.data().pin;
-    } else {
-        return "12345"; // PIN por defecto si no existe
-    }
-}
-
-// Actualizar PIN en Firebase
-export async function updateAdminPin(newPin) {
-    const ref = doc(db, "config", "admin");
-    await setDoc(ref, { pin: newPin });
-}

@@ -506,19 +506,6 @@ window.validateAdminPin = function () {
         showToast("PIN incorrecto", "error");
     }
 };
-window.changeAdminPin = async function () {
-    const newPin = prompt("Ingrese el nuevo PIN (solo números):");
-
-    if (!newPin || newPin.trim() === "") {
-        showToast("PIN inválido", "warning");
-        return;
-    }
-
-    await updateAdminPin(newPin);
-    ADMIN_PIN = newPin;
-
-    showToast("PIN actualizado correctamente", "success");
-};
 
 // --------------------------------------
 // 🛠 MODAL DE RESTAURACIÓN
