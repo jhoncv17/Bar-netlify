@@ -472,17 +472,12 @@ window.restoreAllSystem = async function () {
 const ADMIN_PIN = "12345"; // Cambia este PIN cuando quieras
 
 // Detectar clics en el icono 🍺
-let tapCount = 0;
 const headerIcon = document.getElementById("secretAdminBtn");
 
 headerIcon.addEventListener("click", () => {
-    tapCount++;
-    if (tapCount >= 5) {
-        openAdminModal();
-        tapCount = 0;
-    }
-    setTimeout(() => tapCount = 0, 1500);
+    openAdminModal();
 });
+
 
 window.openAdminModal = function () {
     document.getElementById("adminModal").classList.remove("hidden");
