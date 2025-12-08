@@ -212,24 +212,35 @@
                     Limpiar Historial
                 </button>
             </div>
-<!-- 🔥 Restauración del sistema -->
-<div class="flex flex-wrap gap-3 mb-6">
+<!-- 🔥 Panel de Restauración -->
+<div class="glass-card rounded-2xl p-6 mb-8 border border-white/10 bg-white/5">
 
-    <button onclick="restoreInventoryFromBackup()" 
-        class="btn-secondary px-4 py-2 rounded-lg text-white font-semibold">
-        🔄 Restaurar Inventario
-    </button>
+    <h2 class="text-2xl font-bold text-white mb-3">🔧 Restauración del Sistema</h2>
+    <p class="text-purple-200 text-sm mb-5">
+        Usa estas opciones solo si eliminaste datos por accidente. Se restaurarán desde el backup automático.
+    </p>
 
-    <button onclick="restoreSalesFromBackup()" 
-        class="btn-success px-4 py-2 rounded-lg text-white font-semibold">
-        💾 Restaurar Ventas
-    </button>
+    <div class="flex flex-wrap gap-3">
 
-    <button onclick="restoreAllSystem()" 
-        class="btn-danger px-4 py-2 rounded-lg text-white font-semibold">
-        ⚠️ Restaurar TODO el Sistema
-    </button>
+        <!-- Restaurar Inventario -->
+        <button onclick="restoreInventoryFromBackup()" 
+            class="btn-secondary px-4 py-2 rounded-lg text-white font-semibold shadow">
+            🔄 Restaurar Inventario
+        </button>
 
+        <!-- Restaurar Ventas -->
+        <button onclick="restoreSalesFromBackup()" 
+            class="btn-success px-4 py-2 rounded-lg text-white font-semibold shadow">
+            💾 Restaurar Ventas
+        </button>
+
+        <!-- Restaurar TODO -->
+        <button onclick="restoreAllSystem()" 
+            class="btn-danger px-4 py-2 rounded-lg text-white font-semibold shadow">
+            ⚠️ Restaurar TODO el Sistema
+        </button>
+
+    </div>
 </div>
 
 
