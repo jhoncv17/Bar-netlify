@@ -471,7 +471,7 @@ window.restoreAllSystem = async function () {
 
 import { getAdminPin, updateAdminPin } from "./js/database.js";
 
-let ADMIN_PIN = "71937254";
+let ADMIN_PIN = "12345";
 
 // Cargar PIN real desde Firebase
 (async () => {
