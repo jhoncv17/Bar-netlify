@@ -469,23 +469,20 @@ window.restoreAllSystem = async function () {
 // 🔐 MODAL SECRETO DE ADMINISTRADOR
 // --------------------------------------
 
-import { getAdminPin, updateAdminPin } from "./js/database.js";
-
-let ADMIN_PIN = "12345";
-
-// Cargar PIN real desde Firebase
-(async () => {
-    ADMIN_PIN = await getAdminPin();
-})();
-
+const ADMIN_PIN = "12345"; // Cambia este PIN cuando quieras
 
 // Detectar clics en el icono 🍺
+let tapCount = 0;
 const headerIcon = document.getElementById("secretAdminBtn");
 
 headerIcon.addEventListener("click", () => {
-    openAdminModal();
+    tapCount++;
+    if (tapCount >= 5) {
+        openAdminModal();
+        tapCount = 0;
+    }
+    setTimeout(() => tapCount = 0, 1500);
 });
-
 
 window.openAdminModal = function () {
     document.getElementById("adminModal").classList.remove("hidden");
