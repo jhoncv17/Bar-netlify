@@ -383,6 +383,7 @@ function showToast(message, type) {
         toast.classList.remove('show');
     }, 3500);
 }
+
 // --- MODAL PARA BORRAR STOCK ---
 window.openDeleteModal = function(product) {
     document.getElementById("deleteStockModal").classList.remove("hidden");
@@ -422,3 +423,45 @@ window.confirmRemoveStock = async function() {
 
     showToast("Stock eliminado correctamente", "success");
 }
+// -------------------------------
+// 🔥 FUNCIONES DE RESTAURACIÓN
+// -------------------------------
+
+import { restoreInventory, restoreSales } from "./js/restore.js";
+
+// 🔄 Restaurar INVENTARIO desde backup
+window.restoreInventoryFromBackup = async function () {
+    try {
+        await restoreInventory();
+        showToast("Inventario restaurado correctamente", "success");
+        setTimeout(() => location.reload(), 1000);
+    } catch (error) {
+        console.error("Error al restaurar inventario:", error);
+        showToast("Error al restaurar inventario", "error");
+    }
+};
+
+// 💾 Restaurar VENTAS desde backup
+window.restoreSalesFromBackup = async function () {
+    try {
+        await restoreSales();
+        showToast("Ventas restauradas correctamente", "success");
+        setTimeout(() => location.reload(), 1000);
+    } catch (error) {
+        console.error("Error al restaurar ventas:", error);
+        showToast("Error al restaurar ventas", "error");
+    }
+};
+
+// ⚠️ Restaurar TODO (Inventario + Ventas)
+window.restoreAllSystem = async function () {
+    try {
+        await restoreInventory();
+        await restoreSales();
+        showToast("Sistema restaurado por completo", "success");
+        setTimeout(() => location.reload(), 1200);
+    } catch (error) {
+        console.error("Error al restaurar todo el sistema:", error);
+        showToast("Error al restaurar el sistema", "error");
+    }
+};
