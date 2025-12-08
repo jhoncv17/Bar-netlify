@@ -383,6 +383,20 @@ function showToast(message, type) {
         toast.classList.remove('show');
     }, 3500);
 }
+import { restoreInventory } from "./restore.js";
+
+await restoreInventory();
+alert("Inventario restaurado desde el backup");
+import { restoreSales } from "./restore.js";
+
+await restoreSales();
+alert("Ventas restauradas desde el backup");
+import { restoreEverything } from "./restore.js";
+
+const result = await restoreEverything();
+alert("Restauración completa:\n" +
+  "Inventario restaurado\n" +
+  "Ventas restauradas: " + result.salesRestored);
 
 // --- MODAL PARA BORRAR STOCK ---
 window.openDeleteModal = function(product) {
