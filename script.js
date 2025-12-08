@@ -465,3 +465,53 @@ window.restoreAllSystem = async function () {
         showToast("Error al restaurar el sistema", "error");
     }
 };
+// --------------------------------------
+// 🔐 MODAL SECRETO DE ADMINISTRADOR
+// --------------------------------------
+
+const ADMIN_PIN = "12345"; // Cambia este PIN cuando quieras
+
+// Detectar clics en el icono 🍺
+let tapCount = 0;
+const headerIcon = document.querySelector("header .text-5xl");
+
+headerIcon.addEventListener("click", () => {
+    tapCount++;
+    if (tapCount >= 5) {
+        openAdminModal();
+        tapCount = 0;
+    }
+    setTimeout(() => tapCount = 0, 1500);
+});
+
+window.openAdminModal = function () {
+    document.getElementById("adminModal").classList.remove("hidden");
+};
+
+window.closeAdminModal = function () {
+    document.getElementById("adminModal").classList.add("hidden");
+    document.getElementById("adminPinInput").value = "";
+};
+
+window.validateAdminPin = function () {
+    const input = document.getElementById("adminPinInput").value;
+
+    if (input === ADMIN_PIN) {
+        closeAdminModal();
+        openRestoreModal();
+    } else {
+        showToast("PIN incorrecto", "error");
+    }
+};
+
+// --------------------------------------
+// 🛠 MODAL DE RESTAURACIÓN
+// --------------------------------------
+
+window.openRestoreModal = function () {
+    document.getElementById("restoreModal").classList.remove("hidden");
+};
+
+window.closeRestoreModal = function () {
+    document.getElementById("restoreModal").classList.add("hidden");
+};
