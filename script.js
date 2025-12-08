@@ -473,7 +473,7 @@ const ADMIN_PIN = "12345"; // Cambia este PIN cuando quieras
 
 // Detectar clics en el icono 🍺
 let tapCount = 0;
-const headerIcon = document.querySelector("header .text-5xl");
+const headerIcon = document.getElementById("secretAdminBtn");
 
 headerIcon.addEventListener("click", () => {
     tapCount++;
