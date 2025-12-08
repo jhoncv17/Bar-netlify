@@ -515,3 +515,12 @@ window.openRestoreModal = function () {
 window.closeRestoreModal = function () {
     document.getElementById("restoreModal").classList.add("hidden");
 };
+let secretCounter = 0;
+
+document.getElementById("secretAdminBtn").addEventListener("click", () => {
+    secretCounter++;
+    if (secretCounter >= 5) {
+        secretCounter = 0;
+        openAdminModal(); // aquí va tu modal secreto
+    }
+});
